@@ -10,3 +10,5 @@
 <script src="/xa/dist/js/feather.min.js"></script>
 <script src="/xa/dist/js/custom.min.js"></script>
 
+<script src="/xa/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/xa/assets/extra-libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
