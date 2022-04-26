@@ -9,8 +9,7 @@
     <meta name="author" content="{{ env('APP_META_AUTHOR') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="/xa/assets/images/favicon.png">
     <title>{{ env('APP_NAME') }}</title>
-    <link href="/xa/dist/css/style.min.css" rel="stylesheet">
-    <link href="/xa/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+    @include('components.styles')
     @stack('sub-styles')
 </head>
 
@@ -27,10 +26,15 @@
         <div class="page-wrapper">
             @include('components.app.breadcrumb')
             @yield('content')
+            <footer class="footer text-center">
+                All Rights Reserved by Xtreme admin. Designed and Developed by
+                <a href="https://www.wrappixel.com">WrapPixel</a>.
+            </footer>
         </div>
     </div>
-    @include('components.scripts')
-    @stack('sub-scripts')
 </body>
+
+@include('components.scripts')
+@stack('sub-scripts')
 
 </html>
