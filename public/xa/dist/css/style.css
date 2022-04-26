@@ -4779,7 +4779,8 @@ a.close.disabled {
   padding: 0.75rem; }
 
 .modal-open {
-  overflow: hidden; }
+  overflow: hidden;
+  padding-right: 0px !important }
   .modal-open .modal {
     overflow-x: hidden;
     overflow-y: auto; }
@@ -7862,7 +7863,7 @@ a.text-purple:hover, a.text-purple:focus {
     border-color: #e9ecef; } }
 
 /*******************
-Padding margin property 
+Padding margin property
 *******************/
 html[dir="ltr"] body .m-t-5 {
   margin-top: 5px; }
@@ -8261,8 +8262,8 @@ html[dir="ltr"] body .p-l-0 {
  *  12. Forms
  *  14. Component
  */
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 #main-wrapper {
   width: 100%;
@@ -12374,7 +12375,7 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
 
 html[dir="rtl"] {
   /*******************
-Padding margin property 
+Padding margin property
 *******************/
   /** * Zero */
   /* Stickey inner-left-part */
@@ -15138,24 +15139,24 @@ Author: Wrappixel
 
 File: scss
 */
-/*============================================================== 
- For Desktop & above all (1650px) 
+/*==============================================================
+ For Desktop & above all (1650px)
  ============================================================== */
-/*============================================================== 
- For Laptop & above all (1370px) 
+/*==============================================================
+ For Laptop & above all (1370px)
  ============================================================== */
-/*-- ============================================================== 
- Small Desktop & above all (1024px) 
+/*-- ==============================================================
+ Small Desktop & above all (1024px)
  ============================================================== */
-/*-- ============================================================== 
- Ipad & above all(768px) 
+/*-- ==============================================================
+ Ipad & above all(768px)
  ============================================================== */
 @media (min-width: 768px) {
   .bc-content {
     justify-content: flex-end; } }
 
-/*-- ============================================================== 
- Phone and below ipad(767px) 
+/*-- ==============================================================
+ Phone and below ipad(767px)
  ============================================================== */
 @media (max-width: 991.98px) {
   .do-block {
