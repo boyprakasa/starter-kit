@@ -8,6 +8,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('informasi.index') }}"
+                        aria-expanded="false">
+                        <i data-feather="info"></i><span class="hide-menu">Informasi</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
                             data-feather="book"></i><span class="hide-menu">Menu 1</span>
                     </a>

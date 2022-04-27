@@ -12,3 +12,12 @@
 
 <script src="/xa/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="/xa/assets/extra-libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="/xa/assets/libs/sweetalert2/dist/sweetalert2.all.js"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+</script>
