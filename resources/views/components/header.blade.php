@@ -32,21 +32,16 @@
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                         <span class="with-arrow"><span class="bg-primary"></span></span>
                         <div class="d-flex no-block align-items-center p-15 bg-primary text-white mb-2">
-                            <div class=""><img src="/xa/assets/images/users/1.jpg" alt="user" class="img-circle"
-                                    width="60"></div>
+                            <div class=""><img src="/xa/assets/images/users/1.jpg" alt="user"
+                                    class="img-circle" width="60"></div>
                             <div class="ml-2">
-                                <h4 class="mb-0">Steave Jobs</h4>
-                                <p class=" mb-0">varun@gmail.com</p>
+                                <h4 class="mb-0">{{ auth()->user()->name }}</h4>
+                                <p class=" mb-0">{{ auth()->user()->email }}</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user mr-1 ml-1"></i> My
-                            Profile</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet mr-1 ml-1"></i> My
-                            Balance</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email mr-1 ml-1"></i> Inbox</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings mr-1 ml-1"></i> Account
-                            Setting</a>
+                        <a class="dropdown-item" href="{{ route('profile') }}"><i class="ti-user mr-1 ml-1"></i>
+                            Profil & Pengaturan Akun
+                        </a>
                         <div class="dropdown-divider"></div>
                         <form method="post" action="{{ route('logout') }}">
                             @csrf
@@ -54,10 +49,6 @@
                                     class="fa fa-power-off mr-1 ml-1"></i> Keluar
                             </button>
                         </form>
-                        <div class="dropdown-divider"></div>
-                        <div class="pl-4 p-10"><a href="javascript:void(0)"
-                                class="btn btn-sm btn-success btn-rounded">View
-                                Profile</a></div>
                     </div>
                 </li>
             </ul>

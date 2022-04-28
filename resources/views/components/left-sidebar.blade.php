@@ -14,6 +14,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('admin.index') }}"
+                        aria-expanded="false">
+                        <i data-feather="user"></i><span class="hide-menu">Admin</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
                             data-feather="book"></i><span class="hide-menu">Menu 1</span>
                     </a>

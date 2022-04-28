@@ -25,8 +25,12 @@
 
         var url = $('#formModal').attr('action');
 
+        $('input').removeClass('is-invalid').addClass('is-valid');
+        $('input[type=search]').removeClass('is-valid');
+        $('.text-danger').text('');
+
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
             data: new FormData($('#formModal')[0]),
             contentType: false,
@@ -39,6 +43,12 @@
             error: function(result) {
                 console.log(result);
                 dangerAlert('Gagal disimpan!');
+                var errors = result.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    $('input[name=' + key + ']').addClass('is-invalid').removeClass(
+                        'is-valid');
+                    $('.err_msg_' + key).text(value);
+                });
             }
         });
     });
