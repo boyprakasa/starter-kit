@@ -116,14 +116,13 @@
                 processData: false,
                 success: function(result) {
                     successAlert(result.message);
-                    $('input').removeClass('is-invalid, is-valid');
+                    $('input').removeClass('is-invalid is-valid');
                 },
                 error: function(result) {
                     dangerAlert('Gagal disimpan!');
                     var errors = result.responseJSON.errors;
                     $.each(errors, function(key, value) {
-                        $('input[name=' + key + ']').addClass('is-invalid').removeClass(
-                            'is-valid');
+                        $('input[name=' + key + ']').addClass('is-invalid');
                         $('.err_msg_' + key).text(value);
                     });
                 }

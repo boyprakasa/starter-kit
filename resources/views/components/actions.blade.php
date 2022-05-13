@@ -25,9 +25,9 @@
 
         var url = $('#formModal').attr('action');
 
-        $('input').removeClass('is-invalid').addClass('is-valid');
-        $('input[type=search]').removeClass('is-valid');
-        $('.text-danger').text('');
+        $('input').removeClass('is-invalid is-valid');
+        $('textarea').removeClass('is-invalid is-valid');
+        $('[class*=err_msg_]').text('');
 
         $.ajax({
             type: 'POST',
@@ -41,12 +41,13 @@
                 $('#globaltable').DataTable().ajax.reload();
             },
             error: function(result) {
-                console.log(result);
                 dangerAlert('Gagal disimpan!');
                 var errors = result.responseJSON.errors;
+                $('input').addClass('is-valid');
+                $('input[type=search]').removeClass('is-valid');
                 $.each(errors, function(key, value) {
-                    $('input[name=' + key + ']').addClass('is-invalid').removeClass(
-                        'is-valid');
+                    $('input[name=' + key + ']').addClass('is-invalid');
+                    $('textarea[name=' + key + ']').addClass('is-invalid');
                     $('.err_msg_' + key).text(value);
                 });
             }
