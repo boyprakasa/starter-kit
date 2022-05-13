@@ -8,10 +8,12 @@
         <div class="form-group">
             <label for="" class="control-label">Judul</label>
             <input type="text" name="title" class="form-control" value="{{ $information->title }}">
+            <span class="text-danger err_msg_title"></span>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Isi Informasi</label>
             <textarea name="description" class="form-control">{{ $information->description }}</textarea>
+            <span class="text-danger err_msg_description"></span>
         </div>
     </div>
     <div class="modal-footer">
