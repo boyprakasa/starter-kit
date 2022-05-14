@@ -78,8 +78,11 @@
     $(document).on('click', '.download', function(e) {
         e.preventDefault();
 
-        var url = $(this).attr('href');
+        var url = $(this).data('url');
+        // var size = $(this).data('size');
 
-        window.open(url);
+        // $('.modal-dialog').addClass(size);
+        $('#pdf-iframe').html('<iframe src="' + url +
+            '" style="width: 100%; height: 720px;" frameborder="0"></iframe>');
     });
 </script>

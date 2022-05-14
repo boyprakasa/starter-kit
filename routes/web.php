@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\UserController;
@@ -23,10 +24,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile-setting', [UserController::class, 'show'])->name('profile');
 
     Route::resource('informasi', InformationController::class)->parameter('informasi', 'information');
+    Route::resource('download', DownloadController::class)->parameter('download', 'download');
     Route::resource('admin', UserController::class)->parameter('admin', 'user');
 
     Route::prefix('datatables')->group(function () {
         Route::get('informasi', [InformationController::class, 'datatable'])->name('informasi.datatable');
+        Route::get('download', [DownloadController::class, 'datatable'])->name('download.datatable');
         Route::get('admin', [UserController::class, 'datatable'])->name('admin.datatable');
     });
 });

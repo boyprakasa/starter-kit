@@ -1,13 +1,15 @@
 @if (isset($urlDownload))
-    <button type="button" class="btn btn-sm btn-info download" data-url="{{ $urlDownload }}" data-toggle=" modal"
-        data-target=".component-modal" data-size="{{ $size ?? 'modal-md' }}" data-title="{{ $title ?? '' }}">
+    <button type="button" class="btn btn-sm btn-info download" data-url="{{ $urlDownload }}" data-toggle="modal"
+        data-target=".component-modal-pdf-iframe" data-size="{{ $size ?? 'modal-md' }}"
+        data-title="{{ $title ?? '' }}">
         <i class="mdi mdi-cloud-download"></i>
     </button>
 @endif
 
 @if (isset($urlOpen))
-    <button type="button" class="btn btn-sm btn-success showComponentModal" data-url="{{ $urlOpen }} data-toggle="
-        modal" data-target=".component-modal" data-size="{{ $size ?? 'modal-md' }}" data-title="{{ $title ?? '' }}">
+    <button type="button" class="btn btn-sm btn-success showComponentModal" data-url="{{ $urlOpen }}"
+        data-toggle="modal" data-target=".component-modal" data-size="{{ $size ?? 'modal-md' }}"
+        data-title="{{ $title ?? '' }}">
         <i class=" mdi mdi-folder-multiple"></i>
     </button>
 @endif
