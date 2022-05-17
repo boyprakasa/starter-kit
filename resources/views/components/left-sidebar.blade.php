@@ -112,6 +112,12 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
+                                <a href="{{ route('service.index') }}" class="sidebar-link">
+                                    <i class="mdi mdi-octagram"></i>
+                                    <span class="hide-menu"> Pelayanan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
                                 <a href="{{ route('requirements.index') }}" class="sidebar-link">
                                     <i class="mdi mdi-octagram"></i>
                                     <span class="hide-menu"> Syarat</span>
