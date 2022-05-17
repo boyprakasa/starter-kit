@@ -112,9 +112,9 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">
+                                <a href="{{ route('requirements.index') }}" class="sidebar-link">
                                     <i class="mdi mdi-octagram"></i>
-                                    <span class="hide-menu"> Item 1</span>
+                                    <span class="hide-menu"> Syarat</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
