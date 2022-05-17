@@ -67,7 +67,7 @@
                         <option {{ $requirementsList->required === 0 ? 'selected' : '' }} value="0">Tidak
                             Wajib</option>
                     </select>
-                    <span class="required_err"></span>
+                    <span class="text-danger err_msg_required_err"></span>
                 </div>
             </div>
             <div class="col-6">
@@ -79,7 +79,7 @@
                         <option {{ $requirementsList->status === 0 ? 'selected' : '' }} value="0">
                             Tidak Aktif</option>
                     </select>
-                    <span class="status_err"></span>
+                    <span class="text-danger err_msg_status_err"></span>
                 </div>
             </div>
         </div>
