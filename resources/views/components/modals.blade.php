@@ -1,4 +1,4 @@
-<div class="modal fade component-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+<div class="modal fade component-modal" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="modal fade component-modal-pdf-iframe" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+<div class="modal fade component-modal-pdf-iframe" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div id="pdf-iframe">
