@@ -14,25 +14,25 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                             aria-expanded="false">
-                            <i data-feather="settings"></i>
+                            <i class="fas fa-window-restore"></i>
                             <span class="hide-menu">Permohonan</span>
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-file-alt"></i>
                                     <span class="hide-menu"> Baru</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link">
-                                    <i class="mdi mdi-key"></i>
+                                    <i class="fas fa-file-excel"></i>
                                     <span class="hide-menu"> Revisi</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="javascript:void(0)" class="sidebar-link">
-                                    <i class="mdi mdi-playlist-check"></i>
+                                    <i class="fas fa-file-powerpoint"></i>
                                     <span class="hide-menu"> Proses</span>
                                 </a>
                             </li>
@@ -50,13 +50,13 @@
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Akun</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="javascript:void(0)" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Profil</span>
                                 </a>
                             </li>
@@ -66,17 +66,7 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
-                            data-feather="book"></i><span class="hide-menu">Laporan</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
-                            data-feather="check-square"></i><span class="hide-menu">Menu 2</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
-                            data-feather="settings"></i><span class="hide-menu">Menu 3</span>
+                            class="fas fa-book"></i><span class="hide-menu">Laporan</span>
                     </a>
                 </li>
 
@@ -86,13 +76,13 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('informasi.index') }}"
                             aria-expanded="false">
-                            <i data-feather="info"></i><span class="hide-menu">Informasi</span>
+                            <i class="fas fa-info-circle"></i><span class="hide-menu">Informasi</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('download.index') }}"
                             aria-expanded="false">
-                            <i data-feather="download"></i><span class="hide-menu">Download</span>
+                            <i class="fas fa-download"></i><span class="hide-menu">Download</span>
                         </a>
                     </li>
                 @endrole
@@ -101,50 +91,38 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
                             aria-expanded="false">
-                            <i data-feather="briefcase"></i>
+                            <i class="fas fa-briefcase"></i>
                             <span class="hide-menu">Master</span>
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item">
                                 <a href="{{ route('admin.index') }}" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu">Admin</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="{{ route('service.index') }}" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Layanan</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="{{ route('requirements.index') }}" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Syarat</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="{{ route('requirements-list.index') }}" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Persyaratan</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="{{ route('signature.index') }}" class="sidebar-link">
-                                    <i class="mdi mdi-octagram"></i>
+                                    <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Tanda Tangan</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="javascript:void(0)" class="sidebar-link">
-                                    <i class="mdi mdi-playlist-check"></i>
-                                    <span class="hide-menu"> Item 2</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">
-                                    <i class="mdi mdi-key"></i>
-                                    <span class="hide-menu"> Item 3</span>
                                 </a>
                             </li>
                         </ul>
