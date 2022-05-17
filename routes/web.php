@@ -6,6 +6,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\RequirementsController;
 use App\Http\Controllers\RequirementsListController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('service', ServiceController::class)->parameter('service', 'service');
     Route::resource('requirements', RequirementsController::class)->parameter('requirements', 'requirements');
     Route::resource('requirements-list', RequirementsListController::class)->parameter('requirements-list', 'requirements-list');
+    Route::resource('signature', SignatureController::class)->parameter('signature', 'signature');
 
     Route::prefix('datatables')->group(function () {
         Route::get('informasi', [InformationController::class, 'datatable'])->name('informasi.datatable');
@@ -40,5 +42,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('service', [ServiceController::class, 'datatable'])->name('service.datatable');
         Route::get('requirements', [RequirementsController::class, 'datatable'])->name('requirements.datatable');
         Route::get('requirements-list', [RequirementsListController::class, 'datatable'])->name('requirements-list.datatable');
+        Route::get('signature', [SignatureController::class, 'datatable'])->name('signature.datatable');
     });
 });

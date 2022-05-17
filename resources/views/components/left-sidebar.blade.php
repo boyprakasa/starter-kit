@@ -130,6 +130,12 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
+                                <a href="{{ route('signature.index') }}" class="sidebar-link">
+                                    <i class="mdi mdi-octagram"></i>
+                                    <span class="hide-menu"> Tanda Tangan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
                                 <a href="javascript:void(0)" class="sidebar-link">
                                     <i class="mdi mdi-playlist-check"></i>
                                     <span class="hide-menu"> Item 2</span>
