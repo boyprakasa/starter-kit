@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
@@ -22,6 +23,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+
+Route::get('activate', [RegisterController::class, 'verify'])->name('activate');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');

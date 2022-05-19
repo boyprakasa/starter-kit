@@ -23,7 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->memberProfile) {
+            return view('pages.member-dashboard');
+        }
+
         return view('pages.admin-dashboard');
-        return view('pages.member-dashboard');
     }
 }

@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ env('APP_META_DESCRIPTION') }}">
     <meta name="author" content="{{ env('APP_META_AUTHOR') }}">
+    <meta name="_token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" sizes="16x16" href="/xa/assets/images/favicon.png">
     <title>{{ env('APP_NAME') }}</title>
-    <link href="/xa/dist/css/style.min.css" rel="stylesheet">
+    @include('components.styles')
 </head>
 
 <body>
@@ -24,10 +25,6 @@
             style="background:url(/xa/assets/images/big/auth-bg.jpg) no-repeat center center;">
             <div class="auth-box">
                 <div id="loginform">
-                    <div class="logo">
-                        <span class="db"><img src="/xa/assets/images/logo-icon.png" alt="logo" /></span>
-                        <h5 class="font-medium mb-3">Sign In to Admin</h5>
-                    </div>
                     @yield('content')
                 </div>
                 <div id="recoverform">
@@ -56,18 +53,12 @@
             </div>
         </div>
     </div>
-    <script src="/xa/assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="/xa/assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/xa/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script>
-        $('[data-toggle="tooltip"]').tooltip();
-        $(".preloader").fadeOut();
-        $('#to-recover').on("click", function() {
-            $("#loginform").slideUp();
-            $("#recoverform").fadeIn();
-        });
-
-    </script>
 </body>
+
+@include('components.scripts')
+@include('components.sweetalert-init')
+@stack('login-script')
+@stack('register-script')
+@stack('password-script')
 
 </html>

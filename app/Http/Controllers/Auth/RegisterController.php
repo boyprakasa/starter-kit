@@ -3,71 +3,77 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Notifications\EmailActivation;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showRegistrationForm()
     {
-        $this->middleware('guest');
+        return view('auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(Request $request)
     {
-        return Validator::make($data, [
+        $validate = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'identity_number' => ['required', 'string', 'max:16', 'unique:member_profiles'],
+            'gender' => ['required'],
+            'phone' => ['required', 'string', 'max:16'],
         ]);
+
+        DB::beginTransaction();
+        try {
+            $validate['password'] = bcrypt($request->password);
+
+            $user = User::create(collect($validate)->except('identity_number,gender,phone')->toArray());
+
+            $user->memberProfile()->create([
+                'identity_number' => $request->identity_number,
+                'gender' => $request->gender,
+                'phone' => $request->phone
+            ]);
+
+            $user->notify(new EmailActivation);
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Silahkan cek email anda untuk aktivasi!']);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
+        }
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
+    public function verify(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($request->id);
+
+            if (!hash_equals((string)$request->hash, sha1($user->getEmailForVerification()))) {
+                throw new AuthorizationException();
+            }
+
+            $user->markEmailAsVerified();
+
+            $user->status = 'active';
+
+            $user->save();
+
+            DB::commit();
+
+            return 'Akun berhasil diaktivasi!';
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+            return $th->getMessage();
+        }
     }
 }
