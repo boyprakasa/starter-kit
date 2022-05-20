@@ -39,7 +39,7 @@
                                 <p class=" mb-0">{{ auth()->user()->email }}</p>
                             </div>
                         </div>
-                        @if (auth()->user()->verified)
+                        @if (auth()->user()->hasVerifiedEmail())
                             <a class="dropdown-item" href="{{ route('profile') }}"><i class="ti-user mr-1 ml-1"></i>
                                 Profil & Pengaturan Akun
                             </a>

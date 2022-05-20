@@ -3,7 +3,7 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
 
-                @if (auth()->user()->verified)
+                @if (auth()->user()->hasVerifiedEmail())
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('home') }}"
                             aria-expanded="false">
