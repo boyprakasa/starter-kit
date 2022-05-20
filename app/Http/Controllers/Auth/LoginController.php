@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -28,7 +31,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $maxAttempts = 5;
+    protected $decayMinutes = 1;
 
     /**
      * Create a new controller instance.
@@ -40,41 +44,26 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function authenticated(Request $request, $user)
     {
-        try {
-            $request->validate([
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            $credentials = ['email' => $request->email, 'password' => $request->password];
-            $rember = $request->remember_me ? true : false;
-
-            $auth = Auth::attempt($credentials, $rember);
-
-            if ($auth) {
-                $status = auth()->user()->status;
-                if ($status !== 'active') {
-                    auth()->logout();
-                    if ($status === 'inactive') {
-                        return response()->json(['message' => 'Your account is inactive.'], 401);
-                    } elseif ($status === 'suspend') {
-                        return response()->json(['message' => 'Your account is suspended'], 401);
-                    }
-                }
-
-                return redirect()->intended();
+        if ($user->status !== 'active') {
+            $this->guard()->logout();
+            if ($user->status === 'inactive') {
+                return response()->json(['message' => 'Your account is inactive.', 'csrf_token' => csrf_token()], 401);
+            } elseif ($user->status === 'suspend') {
+                return response()->json(['message' => 'Your account is suspended', 'csrf_token' => csrf_token()], 401);
             }
-
-            return response()->json(['message' => 'Kata sandi salah!'], 401);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json([
-                'success' => false,
-                'message' => 'Pastikan email & kata sandi benar!',
-                // 'error' => $th->getMessage()
-            ], 401);
         }
+
+        return response()->json(['message' => 'Login Success'], 200);
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        throw ValidationException::withMessages([
+            'email' => $user ? 'Kata sandi salah!' : 'Pengguna tidak ditemukan!'
+        ]);
     }
 }

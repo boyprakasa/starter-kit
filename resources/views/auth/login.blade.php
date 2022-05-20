@@ -8,23 +8,32 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <div class="alert alert-danger mt-3 d-none">
+                <center>
+                    <span class="text-danger err_msg_email"></span>
+                </center>
+            </div>
             <form class="form-horizontal mt-3 loginform" method="POST" action="{{ route('login') }}"
                 enctype="application/x-www-form-urlencoded">
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ti-email"></i></span>
+                @csrf
+                <div class="form-group mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ti-email"></i></span>
+                        </div>
+                        <input type="text" class="form-control form-control-lg" placeholder="email" aria-label="Email"
+                            name="email" required>
                     </div>
-                    <input type="text" class="form-control form-control-lg" placeholder="email" aria-label="Email"
-                        name="email" required>
                 </div>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ti-key"></i></span>
+                <div class="form-group mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ti-key"></i></span>
+                        </div>
+                        <input type="password" name="password" class="form-control form-control-lg " placeholder="Password"
+                            aria-label="Password" required>
                     </div>
-                    <input type="password" name="password" class="form-control form-control-lg " placeholder="Password"
-                        aria-label="Password" required>
                 </div>
 
                 <div class="form-group row">
@@ -51,6 +60,8 @@
         $(document).on('click', '.submit', function(e) {
             e.preventDefault();
 
+            $('.alert-danger').addClass('d-none');
+
             $.ajax({
                 type: 'POST',
                 url: "{{ route('login') }}",
@@ -58,14 +69,19 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    location.reload();
+                    successAlert(data.message);
+                    window.location.href = "{{ route('home') }}";
                 },
                 error: function(data) {
+                    $('.alert-danger').removeClass('d-none');
                     dangerAlert(data.responseJSON.message);
-                    // var errors = data.responseJSON.errors;
-                    // $.each(errors, function(key, value) {
-                    //     $('.err_msg_' + key).text(value);
-                    // });
+                    if (data.status === 401) {
+                        $('input[name=_token]').val(data.responseJSON.csrf_token);
+                    }
+                    var errors = data.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('.err_msg_' + key).text(value);
+                    });
                 }
             });
         });
