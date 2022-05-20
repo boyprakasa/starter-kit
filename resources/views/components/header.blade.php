@@ -39,10 +39,12 @@
                                 <p class=" mb-0">{{ auth()->user()->email }}</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{{ route('profile') }}"><i class="ti-user mr-1 ml-1"></i>
-                            Profil & Pengaturan Akun
-                        </a>
-                        <div class="dropdown-divider"></div>
+                        @if (auth()->user()->verified)
+                            <a class="dropdown-item" href="{{ route('profile') }}"><i class="ti-user mr-1 ml-1"></i>
+                                Profil & Pengaturan Akun
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        @endif
                         <form method="post" action="{{ route('logout') }}">
                             @csrf
                             <button class="dropdown-item" style="outline: none; box-shadow: none" type="submit"><i

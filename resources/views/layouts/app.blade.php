@@ -23,7 +23,11 @@
     </div>
     <div id="main-wrapper">
         @include('components.header')
-        @include('components.left-sidebar')
+        @if (auth()->user()->memberProfile)
+            @include('components.sidebar-member')
+        @else
+            @include('components.sidebar-admin')
+        @endif
         <div class="page-wrapper">
             @include('components.app.breadcrumb')
             @yield('content')
