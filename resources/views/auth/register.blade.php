@@ -110,9 +110,8 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    console.log(data);
                     successAlert(data.message);
-                    // $(".loginform")[0].reset();
+                    window.location.href = "{{ route('verification.notice') }}";
                 },
                 error: function(data) {
                     console.log(data);

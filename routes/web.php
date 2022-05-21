@@ -9,6 +9,7 @@ use App\Http\Controllers\RequirementsListController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,12 +23,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => true,
+    'reset' => true,
+    'verify' => true,
+]);
 
 Route::get('activate', [RegisterController::class, 'verify'])->name('activate');
 
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('profile-setting', [UserController::class, 'show'])->name('profile');
 

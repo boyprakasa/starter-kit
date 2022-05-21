@@ -3,77 +3,93 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Notifications\EmailActivation;
-use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
+    /*
+    |--------------------------------------------------------------------------
+    | Register Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
+    |
+    */
+
+    use RegistersUsers;
+
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/email/verify';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        return view('auth.register');
+        $this->middleware('guest');
     }
 
-    public function register(Request $request)
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
     {
-        $validate = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'min:3', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'identity_number' => ['required', 'string', 'max:16', 'unique:member_profiles'],
+            'identity_number' => ['required', 'string', 'digits:16', 'unique:member_profiles'],
             'gender' => ['required'],
-            'phone' => ['required', 'string', 'max:16'],
+            'phone' => ['required', 'string', 'min:10', 'max:16'],
+        ]);
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'status' => 'inactive',
+        ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $user->memberProfile()->create([
+            'identity_number' => $request->identity_number,
+            'gender' => $request->gender,
+            'phone' => $request->phone
         ]);
 
-        DB::beginTransaction();
-        try {
-            $validate['password'] = bcrypt($request->password);
+        // non ajax use
+        // return redirect()->route('verification.notice');
 
-            $user = User::create(collect($validate)->except('identity_number,gender,phone')->toArray());
 
-            $user->memberProfile()->create([
-                'identity_number' => $request->identity_number,
-                'gender' => $request->gender,
-                'phone' => $request->phone
-            ]);
-
-            $user->notify(new EmailActivation);
-
-            DB::commit();
-
-            return response()->json(['success' => true, 'message' => 'Silahkan cek email anda untuk aktivasi!']);
-        } catch (\Throwable $th) {
-            //throw $th;
-            DB::rollback();
-            return response()->json(['success' => false, 'message' => $th->getMessage()]);
-        }
-    }
-
-    public function verify(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $user = User::findOrFail($request->id);
-
-            if (!hash_equals((string)$request->hash, sha1($user->getEmailForVerification()))) {
-                throw new AuthorizationException();
-            }
-
-            $user->markEmailAsVerified();
-
-            $user->status = 'active';
-
-            $user->save();
-
-            DB::commit();
-
-            return 'Akun berhasil diaktivasi!';
-        } catch (\Throwable $th) {
-            //throw $th;
-            DB::rollback();
-            return $th->getMessage();
-        }
+        // ajax use
+        return response()->json(['message' => 'Registration Successful. Please check your email to verify your account.', 'csrf_token' => csrf_token()], 201);
+        // window.location.href = "{{ route('verification.notice') }}"; //blade
     }
 }
