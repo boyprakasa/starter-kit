@@ -34,13 +34,16 @@
                 <div class="card">
                     <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="pills-setting-tab" data-toggle="pill" href="#previous-month"
-                                role="tab" aria-controls="pills-setting" aria-selected="false">Pengaturan</a>
+                            <a class="nav-link active" data-toggle="pill" href="#tab-profile" role="tab"
+                                aria-controls="pills-setting" aria-selected="false">Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#tab-password" role="tab"
+                                aria-controls="pills-setting" aria-selected="false">Kata Sandi</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="previous-month" role="tabpanel"
-                            aria-labelledby="pills-setting-tab">
+                        <div class="tab-pane fade show active" id="tab-profile" role="tabpanel">
                             <div class="card-body">
                                 <form id="formProfil" class="form-horizontal form-material"
                                     action="{{ route('admin.update', auth()->user()->id) }}" method="post">
@@ -55,6 +58,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-md-12">NIK</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="NIK" class="form-control form-control-line"
+                                                name="identity_number"
+                                                value="{{ auth()->user()->memberProfile->identity_number }}">
+                                            <span class="text-danger err_msg_identity_number"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="example-email" class="col-md-12">Email</label>
                                         <div class="col-md-12">
                                             <input type="email" placeholder="example@admin.com"
@@ -66,6 +78,27 @@
                                             <span class="text-danger err_msg_email"></span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Telepon</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="Telepon" class="form-control form-control-line"
+                                                name="phone" value="{{ auth()->user()->memberProfile->phone }}">
+                                            <span class="text-danger err_msg_phone"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-success submit">Simpan</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="tab-password" role="tabpanel">
+                            <div class="card-body">
+                                <form id="formProfil" class="form-horizontal form-material"
+                                    action="{{ route('admin.update', auth()->user()->id) }}" method="post">
+                                    @method('PUT')
                                     <div class="form-group">
                                         <label class="col-md-12">Kata Sandi</label>
                                         <div class="col-md-12">
@@ -83,7 +116,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-success submit">Simpan Perubahan</button>
+                                            <button type="submit" class="btn btn-success submit">Simpan</button>
                                         </div>
                                     </div>
                                 </form>
