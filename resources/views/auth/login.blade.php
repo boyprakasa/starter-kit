@@ -70,7 +70,7 @@
                 processData: false,
                 success: function(data) {
                     successAlert(data.message);
-                    window.location.href = "{{ route('home') }}";
+                    window.location.replace("{{ route('home') }}");
                 },
                 error: function(data) {
                     $('.alert-danger').removeClass('d-none');

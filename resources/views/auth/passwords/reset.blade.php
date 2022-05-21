@@ -1,83 +1,78 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Reset Password') }}</div>
-
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('password.update') }}">
-                            @csrf
-
-                            <input type="hidden" name="token" value="{{ $token }}">
-
-                            <div class="form-group row">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ $email ?? old('email') }}" required autocomplete="email"
-                                        autofocus>
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="new-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required autocomplete="new-password">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Reset Password') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+    <div class="logo">
+        <span class="db"><img src="https://artavel.co.id/images/templatemo_logo.png" height="60"
+                alt="logo" /></span>
+        <h5 class="font-medium mt-2 mb-3">Atur Ulang Kata Sandi</h5>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger mt-3 d-none">
+                <center>
+                    <span class="text-danger err_msg_email"></span>
+                    <span class="text-danger err_msg_password"></span>
+                </center>
+            </div>
+            <form class="resetForm mt-3" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="token" value="{{ $token }}">
+                <div class="form-group row">
+                    <div class="col-12">
+                        <input class="form-control form-control-lg" type="email" name="email" value="{{ $email }}"
+                            required readonly>
                     </div>
                 </div>
-            </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <input class="form-control form-control-lg" type="password" name="password"
+                            placeholder="Kata Sandi Baru" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <input class="form-control form-control-lg" type="password" name="password_confirmation"
+                            placeholder="Konfirmasi Kata Sandi Baru" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-block btn-lg btn-danger" type="submit" name="action">Kirim
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
+
 @push('password-script')
     <script>
-        $('[data-toggle="tooltip"]').tooltip();
-        $(".preloader").fadeOut();
-        $('#to-recover').on("click", function() {
-            $("#loginform").slideUp();
-            $("#recoverform").fadeIn();
+        $('.resetForm').submit(function(e) {
+            e.preventDefault();
+
+            $('.alert-danger').addClass('d-none')
+            $('.text-danger').text('');
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('password.update') }}",
+                data: new FormData($(this)[0]),
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    successAlert('Berhasil!', data.message);
+                    window.location.replace("{{ route('home') }}");
+                },
+                error: function(data) {
+                    $('.alert-danger').removeClass('d-none');
+                    dangerAlert(data.responseJSON.message);
+                    var errors = data.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('.err_msg_' + key).text(value);
+                    });
+                }
+            });
         });
+    </script>
     </script>
 @endpush

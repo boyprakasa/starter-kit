@@ -111,10 +111,9 @@
                 processData: false,
                 success: function(data) {
                     successAlert(data.message);
-                    window.location.href = "{{ route('verification.notice') }}";
+                    window.location.replace("{{ route('verification.notice') }}");
                 },
                 error: function(data) {
-                    console.log(data);
                     var errors = data.responseJSON.errors;
                     $.each(errors, function(key, value) {
                         $('.err_msg_' + key).text(value);
