@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="logo">
-        <span class="db"><img src="/xa/assets/images/logo-icon.png" alt="logo" /></span>
-        <h5 class="font-medium mb-3">Halaman Pendaftaran</h5>
+        <span class="db"><img src="https://artavel.co.id/images/templatemo_logo.png" height="60"
+                alt="logo" /></span>
+        <h5 class="font-medium mb-3"></h5>
         <span>Sudah punya akun? <a href="{{ route('login') }}" class="label label-success">Masuk</a></span>
     </div>
     <div class="row">

@@ -8,7 +8,7 @@
     <meta name="description" content="{{ env('APP_META_DESCRIPTION') }}">
     <meta name="author" content="{{ env('APP_META_AUTHOR') }}">
     <meta name="_token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="/xa/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://artavel.co.id/images/favicon.png">
     <title>{{ env('APP_NAME') }}</title>
     @include('components.styles')
     @stack('sub-styles')

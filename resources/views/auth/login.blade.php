@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="logo">
-        <span class="db"><img src="/xa/assets/images/logo-icon.png" alt="logo" /></span>
-        <h5 class="font-medium mb-3">Halaman Login</h5>
+        <span class="db"><img src="https://artavel.co.id/images/templatemo_logo.png" height="60"
+                alt="logo" /></span>
+        <h5 class="font-medium mb-3"></h5>
         <span>Belum punya akun? <a href="{{ route('register') }}" class="label label-info">Daftar</a></span>
     </div>
     <div class="row">
@@ -41,7 +42,7 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                             <a href="{{ route('password.request') }}" id="to-recover" class="text-dark float-right"><i
-                                    class="fa fa-lock mr-1"></i> Lupa Password?</a>
+                                    class="fa fa-lock mr-1"></i> Lupa Kata Sandi?</a>
                         </div>
                     </div>
                 </div>

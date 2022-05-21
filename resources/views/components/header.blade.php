@@ -6,8 +6,10 @@
             </a>
             <a class="navbar-brand" href=".">
                 <b class="logo-icon">
-                    <img src="/xa/assets/images/logo-icon.png" alt="homepage" class="dark-logo">
-                    <img src="/xa/assets/images/logo-light-icon.png" alt="homepage" class="light-logo">
+                    <img src="https://artavel.co.id/images/templatemo_logo.png" width="45" alt="homepage"
+                        class="dark-logo">
+                    <img src="https://artavel.co.id/images/templatemo_logo.png" width="45" alt="homepage"
+                        class="light-logo">
                 </b>
                 <span class="logo-text">
                     <img src="/xa/assets/images/logo-text.png" alt="homepage" class="dark-logo">
