@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="logo">
-        <span class="db"><img src="https://artavel.co.id/images/templatemo_logo.png" alt="logo" /></span>
-        <h5 class="font-medium mb-3">Atur Ulang Kata Sandi</h5>
+        <span class="db"><img src="https://artavel.co.id/images/templatemo_logo.png" height="60"
+                alt="logo" /></span>
+        <h5 class="font-medium mt-2 mb-3">Atur Ulang Kata Sandi</h5>
         <span>Tautan atur ulang kata sandi akan dikirim lewat email!</span>
     </div>
     <div class="row mt-3">
