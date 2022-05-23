@@ -26,7 +26,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama</th>
+                                        <th>NIP</th>
                                         <th>Email</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -54,7 +56,13 @@
                     data: 'name'
                 },
                 {
+                    data: 'civil_servant_identity_number'
+                },
+                {
                     data: 'email'
+                },
+                {
+                    data: 'status'
                 },
                 {
                     data: 'action'

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -27,9 +26,10 @@ class UserRequest extends FormRequest
         $user = [
             'name' => 'required|regex:/^[a-zA-Z\s]+$/u|max:100',
             'email' => 'required|email|string|unique:users,email,' . optional(request()->user)->id . ',id',
+            'status' => 'required',
         ];
 
-        if (request()->routeIs('admin.store') || request()->password) {
+        if (request()->password) {
             $user['password'] = [
                 'required',
                 'string',
@@ -39,6 +39,26 @@ class UserRequest extends FormRequest
             $user['password_confirmation'] = [
                 'same:password'
             ];
+        }
+
+        if (request()->routeIs('admin.store') || request()->routeIs('admin.update')) {
+            $user['identity_number'] = [
+                'required',
+                'string',
+                'unique:admin_profiles,identity_number,' . optional(request()->user)->id . ',user_id',
+                'regex:/^[0-9]+$/u',
+                'digits_between:16,16'
+            ];
+            $user['civil_servant_identity_number'] = [
+                'required',
+                'string',
+                'unique:admin_profiles,civil_servant_identity_number,' . optional(request()->user)->id . ',user_id',
+                'regex:/[0-9]+$/u',
+                'between:21,21'
+            ];
+            $user['gender'] = 'required';
+            $user['phone'] = 'nullable|min:10|max:16';
+            $user['flow_id'] = 'nullable';
         }
 
         return $user;

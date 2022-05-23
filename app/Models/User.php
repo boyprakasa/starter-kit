@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -42,6 +43,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function adminProfile()
+    {
+        return $this->hasOne(AdminProfile::class);
+    }
 
     public function memberProfile()
     {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Flow;
 use App\Models\user;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -27,7 +27,8 @@ class UserController extends Controller
     public function create()
     {
         $user = new user();
-        return view('pages.user.form', compact('user'));
+        $flows = Flow::all();
+        return view('pages.user.form', compact('user', 'flows'));
     }
 
     /**
@@ -42,7 +43,9 @@ class UserController extends Controller
         try {
             $request->validated();
             $request['password'] = bcrypt($request->password);
-            User::create($request->all());
+
+            $user = User::create($request->all());
+            $user->adminProfile()->create($request->all());
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil disimpan']);
         } catch (\Throwable $th) {
@@ -73,7 +76,8 @@ class UserController extends Controller
      */
     public function edit(user $user)
     {
-        return view('pages.user.form', compact('user'));
+        $flows = Flow::all();
+        return view('pages.user.form', compact('user', 'flows'));
     }
 
     /**
@@ -94,6 +98,13 @@ class UserController extends Controller
             }
 
             $user->update($data);
+
+            if ($user->adminProfile) {
+                $user->adminProfile->update($data);
+            } else {
+                $user->adminProfile()->create($request->all());
+            }
+
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil diubah']);
         } catch (\Throwable $th) {
@@ -113,6 +124,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
+            $user->adminProfile()->delete();
             $user->delete();
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil dihapus']);
@@ -125,7 +137,21 @@ class UserController extends Controller
 
     public function datatable()
     {
-        return datatables()->of(User::all())
+        return datatables()->of(User::query()->with('adminProfile')->doesntHave('memberProfile'))
+            ->addIndexColumn()
+            ->editColumn('civil_servant_identity_number', function ($user) {
+                return $user->adminProfile->civil_servant_identity_number;
+            })
+            ->editColumn('status', function ($user) {
+                $status = $user->status;
+                if ($status === 'active') {
+                    return '<span class="badge badge-success">Aktif</span>';
+                } else if ($status === 'inactive') {
+                    return '<span class="badge badge-secondary">Tidak Aktif</span>';
+                } else {
+                    return '<span class="badge badge-danger">Blokir</span>';
+                }
+            })
             ->addColumn('action', function ($user) {
                 return view('components.datatables.buttons', [
                     'title' => 'Admin',
@@ -133,8 +159,7 @@ class UserController extends Controller
                     'urlDelete' => route('admin.destroy', $user->id),
                 ]);
             })
-            ->addIndexColumn()
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->toJson();
     }
 }
