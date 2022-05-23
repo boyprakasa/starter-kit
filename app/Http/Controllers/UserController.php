@@ -125,6 +125,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $user->adminProfile()->delete();
+            $user->signature()->delete();
             $user->delete();
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil dihapus']);

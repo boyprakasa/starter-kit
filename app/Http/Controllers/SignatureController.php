@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SignatureRequest;
 use App\Models\Signature;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SignatureController extends Controller
@@ -28,7 +27,7 @@ class SignatureController extends Controller
     public function create()
     {
         $signature = new Signature();
-        $users = User::all();
+        $users = User::query()->doesntHave('memberProfile')->get();
         return view('pages.master.signature.form', compact('signature', 'users'));
     }
 
@@ -72,7 +71,7 @@ class SignatureController extends Controller
      */
     public function edit(Signature $signature)
     {
-        $users = User::all();
+        $users = User::query()->doesntHave('memberProfile')->get();
         return view('pages.master.signature.form', compact('signature', 'users'));
     }
 
