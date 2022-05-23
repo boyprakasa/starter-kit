@@ -8,11 +8,13 @@
                     <div class="card-header border-bottom title-part-padding">
                         <div class="d-flex justify-content-between align-content-center">
                             <h5 class="card-title mt-1">Download</h5>
-                            <button class="btn btn-sm btn-outline-success showComponentModal"
-                                data-url="{{ route('download.create') }}" data-toggle="modal"
-                                data-target=".component-modal" data-title="Tambah Download">
-                                Tambah
-                            </button>
+                            @if (!auth()->user()->memberProfile)
+                                <button class="btn btn-sm btn-outline-success showComponentModal"
+                                    data-url="{{ route('download.create') }}" data-toggle="modal"
+                                    data-target=".component-modal" data-title="Tambah Download">
+                                    Tambah
+                                </button>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">

@@ -130,6 +130,13 @@ class DownloadController extends Controller
         return datatables()->of(Download::query())
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                if (auth()->user()->memberProfile) {
+                    return view('components.datatables.buttons', [
+                        // 'urlOpen' => route('download.show', $row->id),
+                        'urlDownload' => Storage::url($row->path),
+                    ]);
+                }
+
                 return view('components.datatables.buttons', [
                     'title' => 'Download',
                     // 'urlOpen' => route('download.show', $row->id),

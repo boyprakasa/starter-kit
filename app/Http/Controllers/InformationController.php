@@ -119,6 +119,10 @@ class InformationController extends Controller
         return datatables()->of(Information::query())
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                if (auth()->user()->memberProfile) {
+                    return '<i class="fas fa-ban"></i>';
+                }
+
                 return view('components.datatables.buttons', [
                     'title' => 'Informasi',
                     'urlOpen' => route('informasi.show', $row->id),

@@ -8,11 +8,13 @@
                     <div class="card-header border-bottom title-part-padding">
                         <div class="d-flex justify-content-between align-content-center">
                             <h5 class="card-title mt-1">Informasi</h5>
-                            <button class="btn btn-sm btn-outline-success showComponentModal"
-                                data-url="{{ route('informasi.create') }}" data-toggle="modal"
-                                data-target=".component-modal" data-title="Tambah Informasi">
-                                Tambah
-                            </button>
+                            @if (!auth()->user()->memberProfile)
+                                <button class="btn btn-sm btn-outline-success showComponentModal"
+                                    data-url="{{ route('informasi.create') }}" data-toggle="modal"
+                                    data-target=".component-modal" data-title="Tambah Informasi">
+                                    Tambah
+                                </button>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">
