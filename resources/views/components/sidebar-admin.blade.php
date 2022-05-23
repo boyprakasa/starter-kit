@@ -49,7 +49,7 @@
                         </a>
                         <ul aria-expanded="false" class="collapse first-level">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">
+                                <a href="{{ route('member.index') }}" class="sidebar-link">
                                     <i class="fas fa-angle-double-right"></i>
                                     <span class="hide-menu"> Akun</span>
                                 </a>

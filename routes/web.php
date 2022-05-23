@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RequirementsController;
 use App\Http\Controllers\RequirementsListController;
 use App\Http\Controllers\ServiceController;
@@ -35,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('profile-setting', [UserController::class, 'show'])->name('profile');
 
+    Route::resource('member', MemberController::class)->except(['create', 'store', 'show'])->parameter('member', 'user');
     Route::resource('informasi', InformationController::class)->parameter('informasi', 'information');
     Route::resource('download', DownloadController::class)->parameter('download', 'download');
     Route::resource('admin', UserController::class)->parameter('admin', 'user');
@@ -44,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('signature', SignatureController::class)->parameter('signature', 'signature');
 
     Route::prefix('datatables')->group(function () {
+        Route::get('member', [MemberController::class, 'datatable'])->name('member.datatable');
         Route::get('informasi', [InformationController::class, 'datatable'])->name('informasi.datatable');
         Route::get('download', [DownloadController::class, 'datatable'])->name('download.datatable');
         Route::get('admin', [UserController::class, 'datatable'])->name('admin.datatable');
