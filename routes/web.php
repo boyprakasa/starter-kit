@@ -5,11 +5,16 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\RequirementsController;
 use App\Http\Controllers\RequirementsListController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Village;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +41,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('profile-setting', [UserController::class, 'show'])->name('profile');
 
+    Route::prefix('permohonan')->group(function () {
+        Route::get('/layanan', [PermohonanController::class, 'firstView'])->name('permohonan.first-view');
+        Route::post('/layanan', [PermohonanController::class, 'firstSubmit'])->name('permohonan.first-submit');
+        Route::get('/pemohon/{service}/{applicant?}', [PermohonanController::class, 'secondView'])->name('permohonan.second-view');
+        Route::post('/pemohon/{service}/{applicant?}', [PermohonanController::class, 'secondSubmit'])->name('permohonan.second-submit');
+        Route::get('/Permohonan/{service}/{applicant}', [PermohonanController::class, 'thirdSubmit'])->name('permohonan.third-submit');
+        Route::post('/Permohonan/{id}', [PermohonanController::class, 'third'])->name('permohonan.third');
+    });
+
+    Route::resource('applicant', ApplicantController::class);
+
     Route::resource('member', MemberController::class)->except(['create', 'store', 'show'])->parameter('member', 'user');
     Route::resource('informasi', InformationController::class)->parameter('informasi', 'information');
     Route::resource('download', DownloadController::class)->parameter('download', 'download');
@@ -55,4 +71,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('requirements-list', [RequirementsListController::class, 'datatable'])->name('requirements-list.datatable');
         Route::get('signature', [SignatureController::class, 'datatable'])->name('signature.datatable');
     });
+});
+
+Route::prefix('wilayah-administratif')->group(function () {
+    Route::get('provinsi', function () {
+        return Province::all();
+    })->name('provinsi');
+
+    Route::get('kabupaten/{province_id}', function ($province_id) {
+        return City::where('province_id', $province_id)->get();
+    })->name('kabupaten');
+
+    Route::get('kecamatan/{city_id}', function ($city_id) {
+        return District::where('city_id', $city_id)->get();
+    })->name('kecamatan');
+
+    Route::get('kelurahan/{district_id}', function ($district_id) {
+        return Village::where('district_id', $district_id)->get();
+    })->name('kelurahan');
 });

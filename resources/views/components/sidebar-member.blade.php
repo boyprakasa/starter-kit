@@ -13,7 +13,8 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{ route('permohonan.first-view') }}" aria-expanded="false"><i
                                 class="fas fa-file-alt"></i><span class="hide-menu">Permohonan</span>
                         </a>
                     </li>

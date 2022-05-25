@@ -15,4 +15,9 @@ class MemberProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function applicant()
+    {
+        return $this->hasMany(Applicant::class, 'member_id');
+    }
 }
