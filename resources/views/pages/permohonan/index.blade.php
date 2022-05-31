@@ -12,9 +12,6 @@
             <div class="col-lg-8 order-lg-1 order-1">
                 {{-- Step 2 --}}
                 @if (request()->routeIs('permohonan.second-view'))
-                    @if (request()->pemohon)
-                        <x-permohonan.pemohon-view />
-                    @else
                     <x-permohonan.pemohon-form />
                 @endif
                 {{-- Step 3 --}}

@@ -25,6 +25,7 @@ class PemohonView extends Component
      */
     public function render()
     {
-        return view('components.permohonan.pemohon-view',);
+        $applicant = Applicant::findOrFail(request()->applicant->id);
+        return view('components.permohonan.pemohon-view', compact('applicant'));
     }
 }
