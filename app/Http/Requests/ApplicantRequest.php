@@ -33,14 +33,14 @@ class ApplicantRequest extends FormRequest
             'district_id' => 'required',
             'village_id' => 'required',
 
-            'npwp' => 'required',
-            'telepon' => 'required',
-            'fax' => 'required',
+            'npwp' => 'nullable',
+            'telepon' => 'nullable',
+            'fax' => 'nullable',
             'jabatan' => 'required',
             // 'gender' => 'required',
             'status' => 'nullable',
 
-            'file_ktp' => 'required|mimes:pdf|max:10240',
+            'file_ktp' => 'nullable|mimes:pdf|max:10240', //required
             'file_npwp' => 'nullable|mimes:pdf|max:10240',
 
         ];

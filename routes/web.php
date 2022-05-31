@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\HomeController;
@@ -44,10 +45,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('permohonan')->group(function () {
         Route::get('/layanan', [PermohonanController::class, 'firstView'])->name('permohonan.first-view');
         Route::post('/layanan', [PermohonanController::class, 'firstSubmit'])->name('permohonan.first-submit');
-        Route::get('/pemohon/{service}/{applicant?}', [PermohonanController::class, 'secondView'])->name('permohonan.second-view');
-        Route::post('/pemohon/{service}/{applicant?}', [PermohonanController::class, 'secondSubmit'])->name('permohonan.second-submit');
-        Route::get('/Permohonan/{service}/{applicant}', [PermohonanController::class, 'thirdSubmit'])->name('permohonan.third-submit');
-        Route::post('/Permohonan/{id}', [PermohonanController::class, 'third'])->name('permohonan.third');
+        Route::get('/pemohon/{service}', [PermohonanController::class, 'secondView'])->name('permohonan.second-view');
+        Route::post('/pemohon/{service}', [PermohonanController::class, 'secondSubmit'])->name('permohonan.second-submit');
+        Route::get('/data/{service}/{applicant}', [PermohonanController::class, 'thirdView'])->name('permohonan.third-view');
+        // Route::post('/data/{id}', [PermohonanController::class, 'thirdSubmit'])->name('permohonan.third-submit');
     });
 
     Route::resource('applicant', ApplicantController::class);

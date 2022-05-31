@@ -13,7 +13,7 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link @if (request()->routeIs('permohonan.*')) active @endif"
                             href="{{ route('permohonan.first-view') }}" aria-expanded="false"><i
                                 class="fas fa-file-alt"></i><span class="hide-menu">Permohonan</span>
                         </a>
