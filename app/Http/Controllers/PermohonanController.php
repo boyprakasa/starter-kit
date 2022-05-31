@@ -68,4 +68,9 @@ class PermohonanController extends Controller
             ]);
         }
     }
+
+    public function thirdView(Service $service, Applicant $applicant)
+    {
+        return view('pages.permohonan.index', compact('service', 'applicant'));
+    }
 }
