@@ -1,6 +1,5 @@
-<form action="{{ route('permohonan.first-submit') }}" method="POST" enctype="application/x-www-form-urlencoded"
-    class="card">
-    @csrf
+<form id="layananForm" action="{{ route('permohonan.first-submit') }}" method="POST"
+    enctype="application/x-www-form-urlencoded" class="card">
     <div class="card-header bg-cyan text-white rounded">Pilih Layanan</div>
     <div class="card-body">
         <div class="form-group">
@@ -19,8 +18,8 @@
             <select name="applicant" class="form-control select2" style="width: 100%">
                 <option value="">Silahkan Pilih (Jika Ada)</option>
                 @foreach ($applicants as $applicant)
-                    <option value="{{ $applicant->id }}">
-                        {{ $applicant->jns_perusahaan === '1' ? $applicant->nama : $applicant->nm_perusahaan }}
+                    <option value="{{ $applicant->id }}" @if (optional(request()->applicant)->id === $applicant->id) selected @endif>
+                        {{ $applicant->jns_pemohon === '1' ? $applicant->nama : $applicant->nm_perusahaan }}
                     </option>
                 @endforeach
             </select>
@@ -28,9 +27,35 @@
     </div>
     @if (request()->routeIs('permohonan.first-view'))
         <div class="card-footer">
-            <button class="btn btn-success float-right">
+            <button type="submit" class="btn btn-success float-right">
                 <i class="fa fa-arrow-right"></i> Lanjut
             </button>
         </div>
     @endif
 </form>
+
+@push('sub-scripts')
+    @include('components.sweetalert-init')
+    <script>
+        $('#layananForm').on('submit', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    successAlert('');
+                    window.location.href = res.url;
+                },
+                error: function(res) {
+                    dangerAlert('');
+                    console.log(res);
+                }
+            });
+        });
+    </script>
+@endpush

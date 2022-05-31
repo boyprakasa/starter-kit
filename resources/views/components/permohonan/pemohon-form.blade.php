@@ -1,6 +1,7 @@
-<form action="{{ route('permohonan.second-view') }}" class="card">
-    @csrf
-    <input type="hidden" name="member_id" value="{{ auth()->user()->memberProfile->id }}">
+<form id="pemohonForm" action="{{ route('permohonan.second-submit', ['service' => request()->service]) }}"
+    method="POST" enctype="application/x-www-form-urlencoded" class="card">
+    <input type="text" name="service_id" value="{{ request('service')->id }}">
+    <input type="text" name="member_id" value="{{ auth()->user()->memberProfile->id }}">
     <div class="card-header bg-secondary text-white rounded">Data Pemohon</div>
     <div class="card-body">
 
@@ -8,23 +9,23 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Jenis Pemohon</label>
-                    <select id="kdjenis" class="form-control select2" style="width:100%" onchange="cek_jenis();"
-                        name="jns_pemohon" required>
+                    <select class="form-control select2 jns_pemohon" style="width:100%" name="jns_pemohon" required>
                         <option value="" selected disabled>Pilih Jenis</option>
                         <option value="1">Pribadi</option>
                         <option value="2">Badan Hukum/Perusahaan</option>
                         <option value="3">Bentuk Lainnya</option>
                     </select>
+                    <small class="text-danger err_msg_jns_pemohon"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <div class="form-group">
                     <label>Bentuk Usaha</label>
-                    <select class="form-control select2" style="width:100%" name="bntk_perusahaan" id="bntk_perusahaan"
+                    <select class="form-control select2 bntk_perusahaan" style="width:100%" name="bntk_perusahaan"
                         required>
                         <option value="" selected disabled>Pilih Bentuk</option>
-                        <option value="1">Perseroan Terbatas (PT)</option>
+                        <option value=" 1">Perseroan Terbatas (PT)</option>
                         <option value="2">Perseroan Terbatas Belum Berbadan Hukum</option>
                         <option value="3">Persekutuan Comanditer (CV)</option>
                         <option value="4">Firma (FA)</option>
@@ -32,18 +33,20 @@
                         <option value="6">Perusahaan Perorangan</option>
                         <option value="7">Bentuk Perusahaan Lainya</option>
                     </select>
+                    <small class="text-danger err_msg_bntk_perusahaan"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <div class="form-group">
                     <label>Jenis Perusahaan</label>
-                    <select class="form-control select2" style="width:100%" name="jns_perusahaan" id="jns_perusahaan"
+                    <select class="form-control select2 jns_perusahaan" style="width:100%" name="jns_perusahaan"
                         required>
                         <option value="" selected disabled>Pilih Jenis</option>
                         <option value="0">PMDN</option>
                         <option value="1">PMA</option>
                     </select>
+                    <small class="text-danger err_msg_jns_perusahaan"></small>
                 </div>
             </div>
 
@@ -52,29 +55,33 @@
                     <label>NIB</label>
                     <input type="text" class="form-control form-control-sm" name="nib">
                 </div>
+                <small class="text-danger err_msg_nib"></small>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <div class="form-group">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control form-control-sm" name="nm_perusahaan" id="nm_perusahaan"
-                        placeholder="Nama Perusahaan" required>
+                    <input type="text" class="form-control form-control-sm nm_perusahaan" name="nm_perusahaan"
+                        placeholder="Nama Perusahaan">
+                    <small class="text-danger err_msg_nm_perusahaan"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <div class="form-group">
                     <label>Direktur/Pimpinan</label>
-                    <input type="text" class="form-control form-control-sm" name="nm_pj" id="nm_pj"
+                    <input type="text" class="form-control form-control-sm nm_pj" name="nm_pj"
                         class="form-control form-control-sm" placeholder="Nama Direktur/Pimpinan">
+                    <small class="text-danger err_msg_nm_pj"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <div class="form-group">
                     <label>Alamat Direktur/Pimpinan</label>
-                    <input type="text" class="form-control form-control-sm" name="alamat_pj" id="alamat_pj"
+                    <input type="text" class="form-control form-control-sm alamat_pj" name="alamat_pj"
                         placeholder="Alamat sesuai KTP" required>
+                    <small class="text-danger err_msg_alamat_pj"></small>
                 </div>
             </div>
 
@@ -89,8 +96,9 @@
             <div class="col-lg-3 half d-none">
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control form-control-sm" name="nama" id="nama" placeholder="Nama"
+                    <input type="text" class="form-control form-control-sm nama" name="nama" placeholder="Nama"
                         required>
+                    <small class="text-danger err_msg_nama"></small>
                 </div>
             </div>
 
@@ -99,72 +107,80 @@
                     <label>Alamat</label>
                     <input type="text" class="form-control form-control-sm" name="alamat" id="alamat"
                         placeholder="Alamat Lengkap" required>
+                    <small class="text-danger err_msg_alamat"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Provinsi</label>
-                    <select class="form-control select2" style="width:100%" name="provinsi" id="provinsi" required>
+                    <select class="form-control select2 province_id" style="width:100%" name="province_id" required>
                         <option value="" selected disabled>Pilih Provinsi</option>
                         @foreach ($provinces as $province)
                             <option value="{{ $province->id }}">{{ $province->name }}</option>
                         @endforeach
                     </select>
+                    <small class="text-danger err_msg_province_id"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Kota</label>
-                    <select class="form-control select2" style="width:100%" name="kota" id="kota" required>
+                    <select class="form-control select2 city_id" style="width:100%" name="city_id" required>
                         <option value="" selected disabled>Pilih Kota</option>
                     </select>
+                    <small class="text-danger err_msg_city_id"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Kecamatan</label>
-                    <select class="form-control select2" style="width:100%" name="kecamatan" id="kecamatan" required>
+                    <select class="form-control select2 district_id" style="width:100%" name="district_id" required>
                         <option value="" selected disabled>Pilih Kecamatan</option>
                     </select>
+                    <small class="text-danger err_msg_district_id"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Desa/Kelurahan</label>
-                    <select class="form-control select2" style="width:100%" name="kelurahan" id="kelurahan" required>
+                    <select class="form-control select2 village_id" style="width:100%" name="village_id" required>
                         <option value="" selected disabled>Pilih Desa/Kelurahan</option>
                     </select>
+                    <small class="text-danger err_msg_village_id"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>NPWP</label>
-                    <input type="text" class="form-control form-control-sm" name="npwp" id="npwp"
+                    <input type="text" class="form-control form-control-sm npwp" name="npwp"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                         placeholder="NPWP 15 digit" maxlength="15">
+                    <small class="text-danger err_msg_npwp"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Telepon</label>
-                    <input type="text" class="form-control form-control-sm" name="telepon" id="telp"
+                    <input type="text" class="form-control form-control-sm telepon" name="telepon"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                         placeholder="Nomor Telepon (62)" maxlength="16">
+                    <small class="text-danger err_msg_telepon"></small>
                 </div>
             </div>
 
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Fax</label>
-                    <input type="text" class="form-control form-control-sm" name="fax" id="fax"
+                    <input type="text" class="form-control form-control-sm fax" name="fax"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                         placeholder="Nomor Fax (62)" maxlength="16">
+                    <small class="text-danger err_msg_fax"></small>
                 </div>
             </div>
 
@@ -179,8 +195,9 @@
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Jabatan</label>
-                    <input type="text" class="form-control form-control-sm" name="jabatan" id="jabatan"
-                        placeholder="Jabatan" required>
+                    <input type="text" class="form-control form-control-sm jabatan" name="jabatan" placeholder="Jabatan"
+                        required>
+                    <small class="text-danger err_msg_jabatan"></small>
                 </div>
             </div>
 
@@ -210,15 +227,18 @@
                     <label>Akta Pendirian</label>
                     <div class="row clearfix">
                         <div class="col-lg-3">
-                            <input type="text" class="form-control form-control-sm" name="akta_no" id="akta_no"
+                            <input type="text" class="form-control form-control-sm akta_no" name="akta_no"
                                 placeholder="Nomor Akta" maxlength="13">
+                            <small class="text-danger err_msg_akta_no"></small>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control form-control-sm" name="notaris" id="notaris"
+                            <input type="text" class="form-control form-control-sm notaris" name="notaris"
                                 placeholder="Nama Notaris">
+                            <small class="text-danger err_msg_notaris"></small>
                         </div>
                         <div class="col-lg-3">
-                            <input type="date" id="tgl_akta" name="tgl_akta" class="form-control form-control-sm">
+                            <input type="date" class="form-control form-control-sm tgl_akta" name="tgl_akta">
+                            <small class="text-danger err_msg_tgl_akta"></small>
                         </div>
                     </div>
                 </div>
@@ -229,15 +249,18 @@
                     <label>Akta Perubahan</label>
                     <div class="row clearfix">
                         <div class="col-lg-3">
-                            <input type="text" class="form-control form-control-sm" name="aktaa_no" id="aktaa_no"
+                            <input type="text" class="form-control form-control-sm aktaa_no" name="aktaa_no"
                                 placeholder="Nomor Akta" maxlength="13">
+                            <small class="text-danger err_msg_aktaa_no"></small>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control form-control-sm" name="notarisa" id="notarisa"
+                            <input type="text" class="form-control form-control-sm notarisa" name="notarisa"
                                 placeholder="Nama Notaris">
+                            <small class="text-danger err_msg_notarisa"></small>
                         </div>
                         <div class="col-lg-3">
-                            <input type="date" id="tgl_aktaa" name="tgl_aktaa" class="form-control form-control-sm">
+                            <input type="date" name="tgl_aktaa" class="form-control form-control-sm tgl_aktaa">
+                            <small class="text-danger err_msg_tgl_aktaa"></small>
                         </div>
                     </div>
                 </div>
@@ -254,7 +277,7 @@
                     <input type="file" class="form-control" name="file_ktp" accept="application/pdf">
                     <small class="badge badge-default badge-info form-text text-white float-left mb-2">Scan
                         KTP</small>
-
+                    <small class="text-danger err_msg_file_ktp"></small>
                 </div>
             </div>
 
@@ -262,12 +285,14 @@
                 <input type="file" class="form-control" name="file_npwp" accept="application/pdf">
                 <small class="badge badge-default badge-info form-text text-white float-left mb-2">Scan
                     NPWP</small>
+                <small class="text-danger err_msg_file_npwp"></small>
             </div>
 
             <div class="col-lg-3 full d-none">
                 <input type="file" class="form-control" name="file_nib" accept="application/pdf">
                 <small class="badge badge-default badge-info form-text text-white float-left mb-2">Scan
                     NIB</small>
+                <small class="text-danger err_msg_file_nib"></small>
             </div>
 
             <div class="col-lg-3 full d-none">
@@ -275,6 +300,7 @@
                 <small class="badge badge-default badge-info form-text text-white float-left mb-2">Scan
                     Akta
                     Pendirian</small>
+                <small class="text-danger err_msg_file_akta"></small>
             </div>
         </div>
 
@@ -287,54 +313,69 @@
 </form>
 
 @push('sub-scripts')
+    @include('components.sweetalert-init')
     <script>
-        // Cek Jenis Pemohon
-        function cek_jenis() {
-            var jn = kdjenis.value;
-            $('.col-lg-3, .col-lg-12').removeClass('d-none');
-            if (jn == '1') {
-                $('.half').attr('style', 'display:block');
-                $('.full').attr('style', 'display:none');
-                $('.pjawab').attr('style', 'display:none');
-                $('#lampiran-pemohon').attr('style', 'display:none');
-                $('#fullname').attr('style', 'display:none');
-                $('#bntk_perusahaan').removeAttr('required', false);
-                $('#jns_perusahaan').removeAttr('required', false);
-                $('#akta_no').removeAttr('required', false);
-                $('#notaris').removeAttr('required', false);
-                $('#tgl_akta').removeAttr('required', false);
-                $('#nm_pj').removeAttr('required', false);
-                $('#alamat_pj').removeAttr('required', false);
-            } else if (jn == '2' || jn == '3') {
-                $('.half').attr('style', 'display:none');
-                $('.full').attr('style', 'display:block');
-                $('.pjawab').attr('style', 'display:block');
-                $('#lampiran-pemohon').attr('style', 'display:block');
-                $('#fullname').attr('style', 'display:block');
-                $('#bntk_perusahaan').removeAttr('required', true);
-                $('#jns_perusahaan').removeAttr('required', true);
-                $('#nama1').removeAttr('required', true);
-                $('#akta_no').removeAttr('required', true);
-                $('#notaris').removeAttr('required', true);
-                $('#tgl_akta').removeAttr('required', true);
-                $('#nm_pj').removeAttr('required', true);
-                $('#alamat_pj').removeAttr('required', true);
-            }
-        }
-
         $(document).ready(function() {
 
-            $('#provinsi').on('change', function() {
+            $('#pemohonForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var url = $(this).attr('action');
+
+                $('input').removeClass('is-invalid is-valid');
+                $('[class*=err_msg_]').text('');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        successAlert('Berhasil', 'Data berhasil disimpan');
+                        window.location.href = res.url;
+                    },
+                    error: function(res) {
+                        dangerAlert('Gagal disimpan!', res.responseJSON.message);
+                        var err = res.responseJSON.errors;
+                        $.each(err, function(i, v) {
+                            $('.' + i).addClass('is-invalid');
+                            $('.err_msg_' + i).text(v);
+                        });
+                    },
+                });
+            })
+
+            // Cek Jenis Pemohon
+            $('.jns_pemohon').on('change', function() {
+                var jn = this.value;
+                $('.col-lg-3, .col-lg-12').removeClass('d-none');
+                if (jn == '1') {
+                    $('.half').attr('style', 'display:block');
+                    $('.full, .pjawab').attr('style', 'display:none');
+
+                    $('.nm_perusahaan, .bntk_perusahaan, .jns_perusahaan, .akta_no, .notaris, .tgl_akta, .nm_pj, .alamat_pj')
+                        .removeAttr('required', false);
+                } else if (jn == '2' || jn == '3') {
+                    $('.half').attr('style', 'display:none');
+                    $('.full, .pjawab').attr('style', 'display:block');
+
+                    $('.nm_perusahaan, .bntk_perusahaan, .jns_perusahaan, .akta_no, .notaris, .tgl_akta, .nm_pj, .alamat_pj')
+                        .removeAttr('required', true);
+                }
+            });
+
+            $('.province_id').on('change', function() {
                 var province_id = $(this).val();
                 getCities(province_id, null);
             });
 
-            $('#kota').on('change', function() {
+            $('.city_id').on('change', function() {
                 var city_id = $(this).val();
                 getDistrict(city_id, null);
             });
 
-            $('#kecamatan').on('change', function() {
+            $('.district_id').on('change', function() {
                 var district_id = $(this).val();
                 getVillage(district_id, null);
             });
@@ -349,9 +390,9 @@
                             return `<option value="${val.id}">${val.name}</option>`;
                         });
                         if (kota) {
-                            $('#kota').html(options).val(kota);
+                            $('.city_id').html(options).val(kota);
                         } else {
-                            $('#kota').html(options);
+                            $('.city_id').html(options);
                         }
                     },
                 });
@@ -367,9 +408,9 @@
                             return `<option value="${val.id}">${val.name}</option>`;
                         });
                         if (kec) {
-                            $('#kecamatan').html(options).val(kec);
+                            $('.district_id').html(options).val(kec);
                         } else {
-                            $('#kecamatan').html(options);
+                            $('.district_id').html(options);
                         }
                     },
                 });
@@ -385,9 +426,9 @@
                             return `<option value="${val.id}">${val.name}</option>`;
                         });
                         if (kec) {
-                            $('#kelurahan').html(options).val(kec);
+                            $('.village_id').html(options).val(kec);
                         } else {
-                            $('#kelurahan').html(options);
+                            $('.village_id').html(options);
                         }
                     },
                 });

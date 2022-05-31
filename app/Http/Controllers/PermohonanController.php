@@ -17,10 +17,23 @@ class PermohonanController extends Controller
 
     public function firstSubmit(Request $request)
     {
-        return redirect()->route('permohonan.second-view', [
-            'service' => $request->service,
-            'applicant' => $request->applicant,
-        ]);
+        if ($request->applicant) {
+            $result = [
+                'url' => route('permohonan.third-view', [
+                    'service' => $request->service,
+                    'applicant' => $request->applicant
+                ]),
+            ];
+        } else {
+            $result = [
+                'url' => route('permohonan.second-view', [
+                    'service' => $request->service
+                ]),
+            ];
+        }
+
+        return $result;
+
         // return view('pages.permohonan.index', compact('service', 'applicant'));
     }
 
@@ -37,11 +50,22 @@ class PermohonanController extends Controller
             $applicant = Applicant::create($request->all());
             $applicant->save();
             DB::commit();
-            return view('pages.permohonan.second', compact('service', 'applicant'));
+            return response()->json([
+                'success' => true,
+                'msg' => 'Berhasil disimpan',
+                'url' => route('permohonan.third-view', [
+                    'service' => $request->service,
+                    'applicant' => $applicant->id
+                ]),
+            ]);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
-            return redirect()->back()->withInput()->withErrors(['error' => $th->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'msg' => 'Gagal disimpan',
+                'error' => $th->getMessage()
+            ]);
         }
     }
 }

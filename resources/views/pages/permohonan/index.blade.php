@@ -15,8 +15,11 @@
                     @if (request()->pemohon)
                         <x-permohonan.pemohon-view />
                     @else
-                        <x-permohonan.pemohon-form />
-                    @endif
+                    <x-permohonan.pemohon-form />
+                @endif
+                {{-- Step 3 --}}
+                @if (request()->routeIs('permohonan.third-view'))
+                    <x-permohonan.pemohon-view />
                 @endif
             </div>
 
