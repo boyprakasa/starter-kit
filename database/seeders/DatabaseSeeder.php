@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSyncSeeder::class);
         $this->call(AdminProfileSeeder::class);
         $this->call(MemberProfileSeeder::class);
+        $this->call(KegiatanSeeder::class);
+        $this->call(JenisKegiatanSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
