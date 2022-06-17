@@ -125,10 +125,29 @@
 
     </div>
 @endsection
+
 @push('sub-scripts')
+    @include('components.sweetalert-init')
     @include('components.datatables.config')
+    @include('components.actions')
     <script>
-        $('#draftTable').DataTable();
+        $('#draftTable').DataTable({
+            ajax: "{{ route('draft.datatable') }}",
+            columns: [{
+                    data: 'DT_RowIndex'
+                },
+                {
+                    data: 'applicant'
+                },
+                {
+                    data: 'service'
+                },
+                {
+                    data: 'actions'
+                }
+            ]
+        });
+
         $('#archiveTable').DataTable();
     </script>
 @endpush

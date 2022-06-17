@@ -1,4 +1,4 @@
-<div class="card d-none">
+<div class="card">
     <div class="card-header bg-danger text-white rounded">Riwayat</div>
     <div class="card-body">
         <ul class="timeline timeline-left">

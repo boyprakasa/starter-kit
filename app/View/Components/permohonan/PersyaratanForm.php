@@ -2,6 +2,7 @@
 
 namespace App\View\Components\permohonan;
 
+use App\Models\RequirementsList;
 use Illuminate\View\Component;
 
 class PersyaratanForm extends Component
@@ -23,6 +24,7 @@ class PersyaratanForm extends Component
      */
     public function render()
     {
-        return view('components.permohonan.persyaratan-form');
+        $requirements = request()->id ? RequirementsList::where('service_id', request()->service->id)->get() : null;
+        return view('components.permohonan.persyaratan-form', compact('requirements'));
     }
 }

@@ -3,9 +3,13 @@
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\DraftController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\N1n01Controller;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\RequirementsController;
 use App\Http\Controllers\RequirementsListController;
@@ -47,8 +51,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/layanan', [PermohonanController::class, 'firstSubmit'])->name('permohonan.first-submit');
         Route::get('/pemohon/{service}', [PermohonanController::class, 'secondView'])->name('permohonan.second-view');
         Route::post('/pemohon/{service}', [PermohonanController::class, 'secondSubmit'])->name('permohonan.second-submit');
-        Route::get('/data/{service}/{applicant}', [PermohonanController::class, 'thirdView'])->name('permohonan.third-view');
+        Route::get('/data-new/{service}/{applicant}', [PermohonanController::class, 'thirdView'])->name('permohonan.third-view-new');
+        // Route::get('/data/{service}/{applicant}/{id}', [PermohonanController::class, 'thirdView'])->name('permohonan.third-view');
+        Route::get('/data/{service}/{applicant}/{id?}', [PermohonanController::class, 'thirdView'])->name('permohonan.third-view');
         // Route::post('/data/{id}', [PermohonanController::class, 'thirdSubmit'])->name('permohonan.third-submit');
+
+        Route::resource('n1n01', N1n01Controller::class);
+
+        Route::post('upload-syarat/{service}', [FileController::class, 'upload'])->name('upload');
     });
 
     Route::resource('applicant', ApplicantController::class);
@@ -71,6 +81,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('requirements', [RequirementsController::class, 'datatable'])->name('requirements.datatable');
         Route::get('requirements-list', [RequirementsListController::class, 'datatable'])->name('requirements-list.datatable');
         Route::get('signature', [SignatureController::class, 'datatable'])->name('signature.datatable');
+
+        Route::get('draft', [DraftController::class, 'datatable'])->name('draft.datatable');
     });
 });
 
@@ -91,3 +103,9 @@ Route::prefix('wilayah-administratif')->group(function () {
         return Village::where('district_id', $district_id)->get();
     })->name('kelurahan');
 });
+
+Route::get('kelurahan-sda/{kecamatan_id}', function ($kecamatan_id) {
+    return Village::where('district_id', $kecamatan_id)->get();
+})->name('kelurahan-sda.by_kecamatan');
+
+Route::get('jenis-kegiatan/{kegiatan}', [JenisKegiatanController::class, 'showByKegiatanId'])->name('jenis-kegiatan.by_kegiatan');

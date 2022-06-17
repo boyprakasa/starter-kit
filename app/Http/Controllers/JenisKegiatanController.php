@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JenisKegiatan;
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
 class JenisKegiatanController extends Controller
@@ -81,5 +82,11 @@ class JenisKegiatanController extends Controller
     public function destroy(JenisKegiatan $jenisKegiatan)
     {
         //
+    }
+
+    public function showByKegiatanId(Kegiatan $kegiatan)
+    {
+        $jenisKegiatans = JenisKegiatan::where('kegiatan_id', $kegiatan->id)->get();
+        return response()->json($jenisKegiatans);
     }
 }
