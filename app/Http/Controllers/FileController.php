@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\Service;
 use App\Traits\UploadFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -28,13 +30,18 @@ class FileController extends Controller
         }
     }
 
-    public function delete()
+    public function delete(File $file)
     {
         DB::beginTransaction();
         try {
-            //code...
+            Storage::delete($file->path);
+            $file->delete();
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Berhasil dihapus']);
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollback();
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
         }
     }
 }

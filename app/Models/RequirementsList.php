@@ -20,4 +20,9 @@ class RequirementsList extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class, 'fileable_checklist_id');
+    }
 }

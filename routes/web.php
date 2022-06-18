@@ -58,7 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::resource('n1n01', N1n01Controller::class);
 
-        Route::post('upload-syarat/{service}', [FileController::class, 'upload'])->name('upload');
+        Route::post('upload-syarat/{service}', [FileController::class, 'upload'])->name('upload-syarat');
+        Route::delete('hapus-syarat/{file}', [FileController::class, 'delete'])->name('hapus-syarat');
     });
 
     Route::resource('applicant', ApplicantController::class);

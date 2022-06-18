@@ -25,6 +25,9 @@ class PersyaratanForm extends Component
     public function render()
     {
         $requirements = request()->id ? RequirementsList::where('service_id', request()->service->id)->get() : null;
+        $requirements->load(['files' => function ($q) {
+            $q->where('fileable_id', request()->id);
+        }]);
         return view('components.permohonan.persyaratan-form', compact('requirements'));
     }
 }

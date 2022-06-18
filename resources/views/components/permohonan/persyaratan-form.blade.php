@@ -1,17 +1,43 @@
-<form id="uploadForm" action="{{ route('upload', ['service' => request()->service]) }}" method="POST"
+<form id="uploadForm" action="{{ route('upload-syarat', ['service' => request()->service]) }}" method="POST"
     enctype="multipart/form-data" class="card">
     <div class="card-header bg-warning rounded">Persyaratan</div>
-    <div class="card-body">
+    <div class="card-body p-15">
         <input type="hidden" name="fileable_id" value="{{ request()->id }}">
-        <ol>
-            @foreach ($requirements as $requirement)
-                <li>
-                    <span>{{ $requirement->requirements->name }}</span>
-                    <input type="hidden" name="checklist_id[]" value="{{ $requirement->id }}">
-                    <input type="file" name="files[]" accept="application/pdf">
-                </li>
-            @endforeach
-        </ol>
+        <table class="table table-sm table-striped">
+            <thead align="center">
+                <tr>
+                    <th>#</th>
+                    <th>File</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($requirements as $requirement)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $requirement->requirements->name }}</td>
+                        <td align="right">
+                            @if ($requirement->files->isNotEmpty())
+                                <a href="{{ asset('storage/' . $requirement->files[0]->path) }}"
+                                    class="btn btn-sm btn-info" target="_blank">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger hapus-syarat"
+                                    id="{{ $requirement->files[0]->id }}"><i class="fas fa-trash-alt"></i></button>
+                            @else
+                                <input type="hidden" name="checklist_id[]" value="{{ $requirement->id }}">
+                                <input type="file" name="files[]" class="InputPdf{{ $requirement->id }}"
+                                    onchange="selectFile({{ $requirement->id }});" accept="application/pdf" hidden>
+                                <span class="fileName{{ $requirement->id }}"></span>&nbsp;
+                                <button type="button" class="btn btn-sm btn-secondary btnPdf{{ $requirement->id }}"
+                                    onclick="selectPdf({{ $requirement->id }})" style="padding: 6px"><i
+                                        class="fas fa-folder-open"></i></button>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     <div class="card-footer">
         <button class="btn btn-success float-right">
@@ -23,6 +49,19 @@
 @push('sub-scripts')
     @include('components.sweetalert-init')
     <script>
+        function selectPdf(id) {
+            $(`.InputPdf${id}`).click();
+        }
+
+        function selectFile(id) {
+            if ($(`.InputPdf${id}`).val()) {
+                var pdfName = $(`.InputPdf${id}`).val().replace(/C:\\fakepath\\/i, '');
+                $(`.fileName${id}`).html(pdfName);
+            } else {
+                $(`.fileName${id}`).html('');
+            }
+        }
+
         $('#uploadForm').on('submit', function(e) {
             e.preventDefault();
             var url = $(this).attr('action');
@@ -40,6 +79,24 @@
                     dangerAlert(data.message);
                 }
             });
+        });
+
+        $(document).on('click', '.hapus-syarat', function(e) {
+            e.preventDefault();
+
+            if (confirm('Hapus syarat ?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ route('hapus-syarat', ':id') }}".replace(':id', this.id),
+                    success: function(data) {
+                        successAlert(data.message);
+                    },
+                    error: function(result) {
+                        dangerAlert(data.message);
+                    }
+                });
+            }
+
         });
     </script>
 @endpush
