@@ -11,7 +11,12 @@
                 @if (request()->routeIs('permohonan.third-view'))
                     <x-permohonan.riwayat-view />
 
-                    <x-permohonan.persyaratan-form />
+                    <div class="hotreload">
+                        <x-permohonan.persyaratan-form />
+                    </div>
+                    <button class="btn btn-success float-right upload-btn">
+                        <i class="fa fa-upload"></i> Upload
+                    </button>
                 @endif
             </div>
 
@@ -53,7 +58,63 @@
 @endsection
 
 @push('sub-scripts')
+    @include('components.sweetalert-init')
     <script>
         $('.select2').select2();
+
+
+        function selectPdf(id) {
+            $(`.InputPdf${id}`).click();
+        }
+
+        function selectFile(id) {
+            if ($(`.InputPdf${id}`).val()) {
+                var pdfName = $(`.InputPdf${id}`).val().replace(/C:\\fakepath\\/i, '');
+                $(`.fileName${id}`).html(pdfName);
+            } else {
+                $(`.fileName${id}`).html('');
+            }
+        }
+
+        $('.upload-btn').on('click', function(e) {
+            e.preventDefault();
+
+            var url = $('#uploadForm').attr('action');
+            const form = $('#uploadForm')[0];
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    successAlert(data.message);
+                    $(".hotreload").load(window.location.href + " .hotreload");
+                },
+                error: function(result) {
+                    dangerAlert(data.message);
+                }
+            });
+        });
+
+        $(document).on('click', '.hapus-syarat', function(e) {
+            e.preventDefault();
+
+            if (confirm('Hapus syarat ?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ route('hapus-syarat', ':id') }}".replace(':id', this.id),
+                    success: function(data) {
+                        successAlert(data.message);
+                    $(".hotreload").load(window.location.href + " .hotreload");
+                    },
+                    error: function(result) {
+                        dangerAlert(data.message);
+                    }
+                });
+            }
+
+        });
     </script>
 @endpush
