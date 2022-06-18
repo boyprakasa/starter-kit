@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header bg-danger text-white rounded">Riwayat</div>
-    <div class="card-body">
+    <div id="historyList" class="card-body overflow-auto" style="min-height: 0px; max-height: 300px">
         <ul class="timeline timeline-left">
             <li class="timeline-inverted timeline-item">
                 <div class="timeline-badge success">
@@ -65,3 +65,11 @@
         </ul>
     </div>
 </div>
+
+@push('sub-scripts')
+    <script>
+        $(document).ready(function() {
+            $('#historyList').scrollTop($('#historyList').prop('scrollHeight'));
+        });
+    </script>
+@endpush
