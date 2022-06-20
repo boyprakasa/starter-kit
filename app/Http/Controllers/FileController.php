@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\RequirementsList;
 use App\Models\Service;
 use App\Traits\UploadFile;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,10 @@ class FileController extends Controller
     {
         DB::beginTransaction();
         try {
+            $request->validate([
+                'files.*' => 'mimes:pdf|max:10240'
+            ]);
+
             if ($request->hasFile('files')) {
                 $path = 'documents/syarat';
                 $this->multipleUpload($request, $service->model_type, $path, 'files');
@@ -36,11 +41,11 @@ class FileController extends Controller
             return response()->json(['success' => true, 'message' => 'Berhasil diupload', 'url' => route('upload-syarat', [
                 'service' => $service->id,
                 'id' => $request->id,
-            ])]);
+            ])], 200);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
-            return response()->json(['success' => false, 'message' => $th->getMessage()]);
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 500);
         }
     }
 
@@ -51,11 +56,11 @@ class FileController extends Controller
             Storage::delete($file->path);
             $file->delete();
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Berhasil dihapus']);
+            return response()->json(['success' => true, 'message' => 'Berhasil dihapus'], 200);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
-            return response()->json(['success' => false, 'message' => $th->getMessage()]);
+            return response()->json(['success' => false, 'message' => $th->getMessage()], 500);
         }
     }
 }
