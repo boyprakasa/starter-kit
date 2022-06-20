@@ -8,7 +8,8 @@
                 {{-- Step 1 --}}
                 <x-permohonan.layanan-form />
 
-                @if (request()->routeIs('permohonan.third-view'))
+                @if (request()->routeIs('permohonan.third-view') && request()->id)
+                    {{-- Step 4 --}}
                     <x-permohonan.riwayat-view />
 
                     <x-permohonan.persyaratan-form />
@@ -31,6 +32,7 @@
             </div>
 
             <div class="col-lg-12 order-lg-4 order-4">
+                {{-- Step 5 --}}
                 <x-permohonan.aggrement-form />
             </div>
 
