@@ -1,4 +1,4 @@
-<form action="" class="card d-none">
+<form id="aggrement-submit" action="" class="card d-none">
     <div class="card-header bg-primary text-white rounded">Konfirmasi</div>
     <div class="card-body">
         <p>

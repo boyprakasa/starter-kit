@@ -16,7 +16,12 @@
                     <tbody>
                         @foreach ($requirements as $requirement)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    {{ $loop->iteration }}
+                                    @if ($requirement->required)
+                                        <em class="text-danger bold">*</em>
+                                    @endif
+                                </td>
                                 <td>{{ $requirement->requirements->name }}</td>
                                 <td align="right">
                                     @if ($requirement->files->isNotEmpty())
@@ -25,7 +30,7 @@
                                             <i class="fas fa-file-pdf"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-danger hapus-syarat"
-                                            data-url="{{ route('hapus-syarat', $requirement->files[0]->id) }}">
+                                            data-url="{{ route('hapus-syarat', ['file' => $requirement->files[0]->id, 'service_id' => request()->service, 'data_id' => request()->id]) }}">
                                             <i class="fas fa-trash-alt"></i></button>
                                     @else
                                         <input type="hidden" name="checklist_id[]" value="{{ $requirement->id }}">
@@ -43,6 +48,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <span class="text-danger bold">
+                    <em>* <u>Wajib diisi!</u></em>
+                </span>
             </div>
         </form>
     </div>
@@ -56,6 +64,9 @@
 @push('sub-scripts')
     @include('components.sweetalert-init')
     <script>
+        // console.log("{{ $requirements->sum('files_count') }}",
+        //     "{{ $requirements->where('required', 1)->count() }}");
+
         $('.select2').select2();
 
         function selectPdf(id) {
@@ -86,6 +97,9 @@
                 success: function(result) {
                     successAlert(result.message);
                     $(".hotreload").load(window.location.href + " .hotreload");
+                    if (result.showFormAggrement) {
+                        $('#aggrement-submit').removeClass('d-none');
+                    }
                 },
                 error: function(result) {
                     dangerAlert(result.message);
@@ -105,6 +119,9 @@
                     success: function(result) {
                         successAlert(result.message);
                         $(".hotreload").load(window.location.href + " .hotreload");
+                        if (!result.showFormAggrement) {
+                            $('#aggrement-submit').addClass('d-none');
+                        }
                     },
                     error: function(result) {
                         var status = result.status;

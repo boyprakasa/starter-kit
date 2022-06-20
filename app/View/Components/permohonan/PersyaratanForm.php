@@ -2,6 +2,7 @@
 
 namespace App\View\Components\permohonan;
 
+use App\Http\Controllers\FileController;
 use App\Models\RequirementsList;
 use Illuminate\View\Component;
 
@@ -24,10 +25,7 @@ class PersyaratanForm extends Component
      */
     public function render()
     {
-        $requirements = request()->id ? RequirementsList::where('service_id', request()->service->id)->get() : null;
-        $requirements->load(['files' => function ($q) {
-            $q->where('fileable_id', request()->id);
-        }]);
+        $requirements = (new FileController)->requirements(request()->service->id, request()->id);
         return view('components.permohonan.persyaratan-form', compact('requirements'));
     }
 }

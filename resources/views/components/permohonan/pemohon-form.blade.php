@@ -1,5 +1,5 @@
-<form id="pemohonForm" action="{{ route('permohonan.second-submit', ['service' => request()->service]) }}"
-    method="POST" enctype="application/x-www-form-urlencoded" class="card">
+<form id="pemohonForm" action="{{ route('permohonan.second-submit', ['service' => request()->service]) }}" method="POST"
+    enctype="application/x-www-form-urlencoded" class="card">
     <input type="text" name="service_id" value="{{ request('service')->id }}">
     <input type="text" name="member_id" value="{{ auth()->user()->memberProfile->id }}">
     <div class="card-header bg-secondary text-white rounded">Data Pemohon</div>
@@ -25,7 +25,7 @@
                     <select class="form-control select2 bntk_perusahaan" style="width:100%" name="bntk_perusahaan"
                         required>
                         <option value="" selected disabled>Pilih Bentuk</option>
-                        <option value=" 1">Perseroan Terbatas (PT)</option>
+                        <option value="1">Perseroan Terbatas (PT)</option>
                         <option value="2">Perseroan Terbatas Belum Berbadan Hukum</option>
                         <option value="3">Persekutuan Comanditer (CV)</option>
                         <option value="4">Firma (FA)</option>
@@ -195,8 +195,8 @@
             <div class="col-lg-3 d-none">
                 <div class="form-group">
                     <label>Jabatan</label>
-                    <input type="text" class="form-control form-control-sm jabatan" name="jabatan" placeholder="Jabatan"
-                        required>
+                    <input type="text" class="form-control form-control-sm jabatan" name="jabatan"
+                        placeholder="Jabatan" required>
                     <small class="text-danger err_msg_jabatan"></small>
                 </div>
             </div>
