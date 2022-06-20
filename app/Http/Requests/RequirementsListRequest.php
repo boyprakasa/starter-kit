@@ -30,6 +30,7 @@ class RequirementsListRequest extends FormRequest
             'upload_by' => 'required',
             'required' => 'required',
             'status' => 'required',
+            'applicant_type' => 'required',
         ];
     }
 }

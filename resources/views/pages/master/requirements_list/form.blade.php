@@ -44,17 +44,41 @@
             </select>
             <span class="text-danger err_msg_need"></span>
         </div>
-        <div class="form-group">
-            <label for="">Upload oleh</label>
-            <select class="form-control select2" name="upload_by">
-                <option {{ $requirementsList->upload_by === 'pemohon' ? 'selected' : '' }} value="pemohon"> Pemohon
-                </option>
-                <option {{ $requirementsList->upload_by === 'internal' ? 'selected' : '' }} value="internal"> Internal
-                </option>
-                <option {{ $requirementsList->upload_by === 'semua' ? 'selected' : '' }} value="semua"> Semua
-                </option>
-            </select>
-            <span class="text-danger err_msg_upload_by"></span>
+        <div class="row clearfix">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="">Upload oleh</label>
+                    <select class="form-control select2" name="upload_by">
+                        <option {{ $requirementsList->upload_by === 'pemohon' ? 'selected' : '' }} value="pemohon">
+                            Pemohon
+                        </option>
+                        <option {{ $requirementsList->upload_by === 'internal' ? 'selected' : '' }} value="internal">
+                            Internal
+                        </option>
+                        <option {{ $requirementsList->upload_by === 'semua' ? 'selected' : '' }} value="semua">
+                            Semua
+                        </option>
+                    </select>
+                    <span class="text-danger err_msg_upload_by"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="">Jenis Pemohon</label>
+                    <select class="form-control select2" name="applicant_type">
+                        <option {{ $requirementsList->applicant_type === 1 ? 'selected' : '' }} value="1">
+                            Perorangan
+                        </option>
+                        <option {{ $requirementsList->applicant_type === 2 ? 'selected' : '' }} value="2">
+                            Badan Hukum
+                        </option>
+                        <option {{ $requirementsList->applicant_type === 3 ? 'selected' : '' }} value="3">
+                            Lainnya
+                        </option>
+                    </select>
+                    <span class="text-danger err_msg_upload_by"></span>
+                </div>
+            </div>
         </div>
 
         <div class="row clearfix">

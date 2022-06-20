@@ -21,6 +21,7 @@ class CreateRequirementsListsTable extends Migration
             $table->enum('upload_by', ['pemohon', 'internal', 'semua'])->default('pemohon');
             $table->integer('required')->default(1);
             $table->integer('status')->default(1);
+            $table->integer('applicant_type')->nullable();
             $table->timestamps();
         });
     }
