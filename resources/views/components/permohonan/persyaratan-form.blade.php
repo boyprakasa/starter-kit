@@ -64,8 +64,9 @@
 @push('sub-scripts')
     @include('components.sweetalert-init')
     <script>
-        // console.log("{{ $requirements->sum('files_count') }}",
-        //     "{{ $requirements->where('required', 1)->count() }}");
+        if ("{{ $requirements->sum('files_count') }}" == "{{ $requirements->where('required', 1)->count() }}") {
+            $('#aggrement-submit').removeClass('d-none');
+        }
 
         $('.select2').select2();
 
