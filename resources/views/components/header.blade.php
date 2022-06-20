@@ -4,7 +4,7 @@
             <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                     class="ti-menu ti-close"></i>
             </a>
-            <a class="navbar-brand" href=".">
+            <a class="navbar-brand" href="/">
                 <b class="logo-icon">
                     <img src="https://artavel.co.id/images/templatemo_logo.png" width="45" alt="homepage"
                         class="dark-logo">
@@ -30,7 +30,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href=""
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                            src="/xa/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"></a>
+                            src="/xa/assets/images/users/1.jpg" alt="user" class="rounded-circle"
+                            width="31"></a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                         <span class="with-arrow"><span class="bg-primary"></span></span>
                         <div class="d-flex no-block align-items-center p-15 bg-primary text-white mb-2">
