@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\RequirementsList;
 use App\Models\Service;
 use App\Traits\UploadFile;
 use Illuminate\Http\Request;
@@ -13,6 +14,16 @@ class FileController extends Controller
 {
     use UploadFile;
 
+
+    public function showForm()
+    {
+        $requirements = RequirementsList::where('service_id', request()->service->id)->get();
+        $requirements->load(['files' => function ($q) {
+            $q->where('fileable_id', request()->id);
+        }]);
+        return view('components.permohonan.persyaratan-form', compact('requirements'));
+    }
+
     public function upload(Request $request, Service $service)
     {
         DB::beginTransaction();
@@ -22,7 +33,10 @@ class FileController extends Controller
                 $this->multipleUpload($request, $service->model_type, $path, 'files');
             }
             DB::commit();
-            return response()->json(['success' => true, 'message' => 'Berhasil diupload']);
+            return response()->json(['success' => true, 'message' => 'Berhasil diupload', 'url' => route('upload-syarat', [
+                'service' => $service->id,
+                'id' => $request->id,
+            ])]);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();

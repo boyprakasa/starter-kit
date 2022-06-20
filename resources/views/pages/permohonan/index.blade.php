@@ -35,20 +35,6 @@
                 @endif
             </div>
 
-            {{-- <div class="col-lg-4 order-lg-2 order-3"> --}}
-            {{-- Step 4 --}}
-            {{-- @if (request()->routeIs('permohonan.third-view'))
-                    <x-permohonan.persyaratan-form />
-                @endif --}}
-            {{-- </div> --}}
-
-            {{-- <div class="col-lg-8 order-lg-3 order-2"> --}}
-            {{-- Step 3 --}}
-            {{-- @if (request()->routeIs('permohonan.third-view') || request()->routeIs('permohonan.third-view-new'))
-                    <x-permohonan.data-form />
-                @endif --}}
-            {{-- </div> --}}
-
             <div class="col-lg-12 order-lg-4 order-4">
                 <x-permohonan.aggrement-form />
             </div>
@@ -90,7 +76,7 @@
                 processData: false,
                 success: function(data) {
                     successAlert(data.message);
-                    $(".hotreload").load(window.location.href + " .hotreload");
+                    $(".hotreload").load(data.url);
                 },
                 error: function(result) {
                     dangerAlert(data.message);
@@ -107,7 +93,7 @@
                     url: "{{ route('hapus-syarat', ':id') }}".replace(':id', this.id),
                     success: function(data) {
                         successAlert(data.message);
-                    $(".hotreload").load(window.location.href + " .hotreload");
+                        $(".hotreload").load(window.location.href + " .hotreload");
                     },
                     error: function(result) {
                         dangerAlert(data.message);
