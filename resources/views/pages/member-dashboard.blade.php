@@ -129,7 +129,6 @@
 @push('sub-scripts')
     @include('components.sweetalert-init')
     @include('components.datatables.config')
-    @include('components.actions')
     <script>
         $('#draftTable').DataTable({
             ajax: "{{ route('draft.datatable') }}",
@@ -149,5 +148,26 @@
         });
 
         $('#archiveTable').DataTable();
+
+        $(document).on('click', '.delete', function(e) {
+            e.preventDefault();
+
+            var url = $(this).data('url');
+
+            warningAlert('Hapus Data?', 'Data yang terhapus tidak bisa dikembalikan!', function() {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: function(result) {
+                        successAlert(result.message);
+                        $('#draftTable').DataTable().ajax.reload();
+                    },
+                    error: function(result) {
+                        console.log(result);
+                        dangerAlert('Gagal dihapus!');
+                    }
+                });
+            });
+        });
     </script>
 @endpush

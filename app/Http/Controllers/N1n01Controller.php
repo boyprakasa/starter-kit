@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\n1n01Request;
 use App\Models\N1n01;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class N1n01Controller extends Controller
 {
@@ -51,7 +51,7 @@ class N1n01Controller extends Controller
                 ]),
                 'success' => true,
                 'message' => 'Data berhasil disimpan.'
-            ]);
+            ], 200);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
@@ -59,7 +59,7 @@ class N1n01Controller extends Controller
                 'success' => false,
                 'message' => 'Data gagal disimpan.',
                 'error' => $th->getMessage()
-            ]);
+            ], 500);
         }
     }
 
@@ -106,14 +106,14 @@ class N1n01Controller extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data berhasil diubah.'
-            ]);
+            ], 200);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
             return response()->json([
                 'success' => false,
                 'message' => 'Data gagal disimpan.'
-            ]);
+            ], 500);
         }
     }
 
@@ -125,6 +125,33 @@ class N1n01Controller extends Controller
      */
     public function destroy(N1n01 $n1n01)
     {
-        //
+        DB::beginTransaction();
+        try {
+            if ($n1n01->flow < 8) {
+                // Permanent
+                $files = $n1n01->files;
+                foreach ($files as $file) {
+                    Storage::delete($file->path);
+                    $file->delete();
+                }
+                $n1n01->forceDelete();
+            } else {
+                // Temporary
+                $n1n01->delete();
+            }
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil dihapus.'
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal dihapus.'
+            ], 500);
+        }
     }
 }

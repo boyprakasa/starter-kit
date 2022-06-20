@@ -55,6 +55,7 @@ class CreateN1n01sTable extends Migration
             $table->date('tgl_ba')->nullable();
             $table->date('tgl_tinjau')->nullable();
             $table->date('tgl_sidang')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
