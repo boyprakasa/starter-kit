@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="col-sm-3">
-                <a href="">
+                <a href="{{ route('permohonan.first-view') }}">
                     <div class="card bg-success card-hover">
                         <div class="card-body text-white">
                             <div class="row">
