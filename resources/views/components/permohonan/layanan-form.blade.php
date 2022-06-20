@@ -5,7 +5,7 @@
         <div class="form-group">
             <label class="control-label">Layanan</label>
             <select name="service" class="form-control select2" style="width: 100%">
-                <option value="">Silahkan Pilih</option>
+                <option value="" selected disabled>Silahkan Pilih</option>
                 @foreach ($services as $service)
                     <option value="{{ $service->id }}" @if (optional(request('service'))->id == '1') selected @endif>
                         {{ $service->name }}
@@ -37,6 +37,8 @@
 @push('sub-scripts')
     @include('components.sweetalert-init')
     <script>
+        $('.select2').select2();
+
         $('#layananForm').on('submit', function(e) {
             e.preventDefault();
             var url = $(this).attr('action');
@@ -47,13 +49,12 @@
                 data: new FormData(this),
                 contentType: false,
                 processData: false,
-                success: function(res) {
-                    successAlert('');
-                    window.location.href = res.url;
+                success: function(result) {
+                    successAlert('Berhasil!', result.message);
+                    window.location.href = result.url;
                 },
-                error: function(res) {
-                    dangerAlert('');
-                    console.log(res);
+                error: function(result) {
+                    dangerAlert('Gagal!', 'Silahkan Pilih Layanan!');
                 }
             });
         });

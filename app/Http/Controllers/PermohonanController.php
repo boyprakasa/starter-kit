@@ -17,24 +17,31 @@ class PermohonanController extends Controller
 
     public function firstSubmit(Request $request)
     {
-        if ($request->applicant) {
-            $result = [
-                'url' => route('permohonan.third-view', [
-                    'service' => $request->service,
-                    'applicant' => $request->applicant
-                ]),
-            ];
-        } else {
-            $result = [
-                'url' => route('permohonan.second-view', [
-                    'service' => $request->service
-                ]),
-            ];
+        $request->validate([
+            'service' => 'required',
+        ]);
+
+        try {
+            if ($request->applicant) {
+                $result = [
+                    'message' => 'Silahkan Isi Data Permohonan!',
+                    'url' => route('permohonan.third-view', [
+                        'service' => $request->service,
+                        'applicant' => $request->applicant
+                    ]),
+                ];
+            } else {
+                $result = [
+                    'message' => 'Silahkan Isi Data Pemohon!',
+                    'url' => route('permohonan.second-view', [
+                        'service' => $request->service
+                    ]),
+                ];
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        return $result;
-
-        // return view('pages.permohonan.index', compact('service', 'applicant'));
     }
 
     public function secondView(Service $service, Applicant $applicant)
