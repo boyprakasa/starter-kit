@@ -1,7 +1,7 @@
 <form id="pemohonForm" action="{{ route('permohonan.second-submit', ['service' => request()->service]) }}" method="POST"
     enctype="application/x-www-form-urlencoded" class="card">
-    <input type="text" name="service_id" value="{{ request('service')->id }}">
-    <input type="text" name="member_id" value="{{ auth()->user()->memberProfile->id }}">
+    <input type="hidden" name="service_id" value="{{ request('service')->id }}">
+    <input type="hidden" name="member_id" value="{{ auth()->user()->memberProfile->id }}">
     <div class="card-header bg-secondary text-white rounded">Data Pemohon</div>
     <div class="card-body">
 
