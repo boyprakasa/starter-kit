@@ -123,9 +123,11 @@
             </tr>
         </table>
     </div>
-    <div class="card-footer">
-        <button class="btn btn-info float-right">
-            <i class="fa fa-check"></i> Verifikasi
-        </button>
-    </div>
+    @if (auth()->user()->adminProfile)
+        <div class="card-footer">
+            <button class="btn btn-info float-right">
+                <i class="fa fa-check"></i> Verifikasi
+            </button>
+        </div>
+    @endif
 </div>
