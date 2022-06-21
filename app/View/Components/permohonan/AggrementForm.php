@@ -23,6 +23,8 @@ class AggrementForm extends Component
      */
     public function render()
     {
-        return view('components.permohonan.aggrement-form');
+        $service = request()->service->model_type;
+        $izin = $service::find(request()->id);
+        return view('components.permohonan.aggrement-form', compact('izin'));
     }
 }

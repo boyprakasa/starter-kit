@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer aggrement-before-submit">
         <button type="submit" class="btn btn-success float-right">
             <i class="fa fa-save"></i> Simpan
         </button>

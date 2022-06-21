@@ -3,6 +3,7 @@
 namespace App\View\Components\permohonan;
 
 use Illuminate\View\Component;
+use Spatie\Activitylog\Models\Activity;
 
 class RiwayatView extends Component
 {
@@ -23,6 +24,9 @@ class RiwayatView extends Component
      */
     public function render()
     {
-        return view('components.permohonan.riwayat-view');
+        $service = request()->service->model_type;
+        $izin = $service::find(request()->id);
+        $histories = $izin->activities;
+        return view('components.permohonan.riwayat-view', compact('histories'));
     }
 }

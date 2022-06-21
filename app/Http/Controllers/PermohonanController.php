@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApplicantRequest;
+use App\Models\AdminProfile;
 use App\Models\Applicant;
 use App\Models\Service;
+use App\Models\User;
+use App\Notifications\Permohonan\Internal\NewDocument;
+use App\Traits\PermitLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PermohonanController extends Controller
 {
+    use PermitLog;
+
     public function firstView()
     {
         return view('pages.permohonan.index');
@@ -79,5 +85,42 @@ class PermohonanController extends Controller
     public function thirdView(Service $service, Applicant $applicant)
     {
         return view('pages.permohonan.index', compact('service', 'applicant'));
+    }
+
+    public function submit(Request $request)
+    {
+        $request->validate([
+            'aggrement' => 'required',
+            'service' => 'required',
+            'id' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $izin = $request->service::find($request->id);
+
+            $izin->update([
+                'flow' => 1,
+                'flowa' => 'Internal',
+                'flow_status' => 'Setuju'
+            ]);
+
+            $this->submitLog($request, $izin);
+
+            DB::commit();
+
+            // Email Notif CS
+            $frontOffices = AdminProfile::with('user')->where('flow_id', 1)->get();
+            foreach ($frontOffices as $key => $frontOffice) {
+                $frontOffice->user->notify(new NewDocument($izin->service->name, $izin->applicant->nm_perusahaan ?? $izin->applicant->nama, $izin->no_register));
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dikirim'
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

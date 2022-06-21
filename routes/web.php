@@ -61,6 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('upload-syarat/{service}', [FileController::class, 'showForm']);
         Route::post('upload-syarat/{service}', [FileController::class, 'upload'])->name('upload-syarat');
         Route::delete('hapus-syarat/{file}', [FileController::class, 'delete'])->name('hapus-syarat');
+
+        Route::post('submit', [PermohonanController::class, 'submit'])->name('permohonan.submit');
     });
 
     Route::resource('applicant', ApplicantController::class);

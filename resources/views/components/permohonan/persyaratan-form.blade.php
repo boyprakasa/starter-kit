@@ -29,7 +29,8 @@
                                             class="btn btn-sm btn-info" target="_blank">
                                             <i class="fas fa-file-pdf"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-danger hapus-syarat"
+                                        <button type="button"
+                                            class="btn btn-sm btn-danger aggrement-before-submit hapus-syarat"
                                             data-url="{{ route('hapus-syarat', ['file' => $requirement->files[0]->id, 'service_id' => request()->service, 'data_id' => request()->id]) }}">
                                             <i class="fas fa-trash-alt"></i></button>
                                     @else
@@ -39,7 +40,7 @@
                                             hidden>
                                         <span class="fileName{{ $requirement->id }}"></span>&nbsp;
                                         <button type="button"
-                                            class="btn btn-sm btn-secondary btnPdf{{ $requirement->id }}"
+                                            class="btn btn-sm btn-secondary aggrement-before-submit btnPdf{{ $requirement->id }}"
                                             onclick="selectPdf({{ $requirement->id }})" style="padding: 4px 7px;"><i
                                                 class="fas fa-folder-open"></i></button>
                                     @endif
@@ -54,7 +55,7 @@
             </div>
         </form>
     </div>
-    <div class="card-footer">
+    <div class="card-footer aggrement-before-submit">
         <button class="btn btn-success float-right upload-btn">
             <i class="fa fa-upload"></i> Upload
         </button>
