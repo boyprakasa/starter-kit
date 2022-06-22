@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Permohonan\Internal;
+namespace App\Notifications\Supplication\Internal;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +37,7 @@ class NewDocument extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -67,7 +67,10 @@ class NewDocument extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'service' => $this->service,
+            'applicant' => $this->applicant,
+            'register' => $this->register,
+            'description' => $this->description,
         ];
     }
 }
