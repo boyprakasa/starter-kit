@@ -36,19 +36,63 @@
         </div>
         <div class="form-group">
             <label for="" class="control-label">No. Telepon</label>
-            <input type="text" name="phone" class="form-control" value="{{ optional($user->adminProfile)->phone }}">
+            <input type="text" name="phone" class="form-control"
+                value="{{ optional($user->adminProfile)->phone }}">
             <span class="text-danger err_msg_phone"></span>
         </div>
-        <div class="form-group">
-            <label for="" class="control-label">Flow</label>
-            <select name="flow_id" class="form-control select2">
-                <option value="">Pilih Jika Perlu</option>
-                @foreach ($flows as $flow)
-                    <option value="{{ $flow->id }}" @if (optional($user->adminProfile)->flow_id === $flow->id) selected @endif>
-                        {{ $flow->name }}</option>
-                @endforeach
-            </select>
-            <span class="text-danger err_msg_flow_id"></span>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="" class="control-label">Flow</label>
+                    <select name="flow_id" class="form-control select2">
+                        <option value="">Pilih Jika Perlu</option>
+                        @foreach ($flows as $flow)
+                            <option value="{{ $flow->id }}" @if (optional($user->adminProfile)->flow_id === $flow->id) selected @endif>
+                                {{ $flow->name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger err_msg_flow_id"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="" class="control-label">Layanan</label>
+                    <select name="service[]" class="form-control select2" multiple>
+                        <option value="">Pilih Jika Perlu</option>
+                        @foreach ($services as $service)
+                            <option value="{{ $service->id }}" @if (in_array($service->id, $user->service->pluck('id')->toArray())) selected @endif>
+                                {{ $service->name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger err_msg_service"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="" class="control-label">Role</label>
+                    <select name="role[]" class="form-control select2" multiple>
+                        <option value="" selected disabled>Silahkan Pilih</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}" @if (in_array($role->id, $user->roles->pluck('id')->toArray())) selected @endif>
+                                {{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger err_msg_role"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="" class="control-label">Permission</label>
+                    <select name="permission" class="form-control select2">
+                        <option value="" selected disabled>Silahkan Pilih</option>
+                        @foreach ($permissions as $permission)
+                            <option value="{{ $permission->id }}" @if (in_array($permission->id, $user->permissions->pluck('id')->toArray())) selected @endif>
+                                {{ $permission->name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="text-danger err_msg_permission"></span>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="" class="control-label">Status</label>

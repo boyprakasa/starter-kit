@@ -59,6 +59,9 @@ class UserRequest extends FormRequest
             $user['gender'] = 'required';
             $user['phone'] = 'nullable|min:10|max:16';
             $user['flow_id'] = 'nullable';
+            $user['service'] = 'nullable';
+            $user['role'] = 'nullable';
+            $user['permission'] = 'nullable';
         }
 
         return $user;

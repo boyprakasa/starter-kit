@@ -4,11 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\Flow;
+use App\Models\Service;
 use App\Models\user;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    protected $roles;
+    protected $permissions;
+    protected $services;
+    protected $flows;
+
+    public function __construct()
+    {
+        $this->roles = Role::get();
+        $this->permissions = Permission::get();
+        $this->services = Service::get();
+        $this->flows = Flow::all();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +43,11 @@ class UserController extends Controller
     public function create()
     {
         $user = new user();
-        $flows = Flow::all();
-        return view('pages.user.form', compact('user', 'flows'));
+        $roles = $this->roles;
+        $permissions = $this->permissions;
+        $services = $this->services;
+        $flows = $this->flows;
+        return view('pages.user.form', compact('user', 'roles', 'permissions', 'services', 'flows'));
     }
 
     /**
@@ -46,6 +65,14 @@ class UserController extends Controller
 
             $user = User::create($request->all());
             $user->adminProfile()->create($request->all());
+
+            if ($request->service) {
+                $user->service()->sync($request->service);
+            }
+
+            $user->roles()->sync($request->role);
+            $user->permissions()->sync($request->permission);
+
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil disimpan']);
         } catch (\Throwable $th) {
@@ -76,8 +103,11 @@ class UserController extends Controller
      */
     public function edit(user $user)
     {
-        $flows = Flow::all();
-        return view('pages.user.form', compact('user', 'flows'));
+        $roles = $this->roles;
+        $permissions = $this->permissions;
+        $services = $this->services;
+        $flows = $this->flows;
+        return view('pages.user.form', compact('user', 'roles', 'permissions', 'services', 'flows'));
     }
 
     /**
@@ -104,6 +134,13 @@ class UserController extends Controller
             } else {
                 $user->adminProfile()->create($request->all());
             }
+
+            if ($request->service) {
+                $user->service()->sync($request->service);
+            }
+
+            $user->roles()->sync($request->role);
+            $user->permissions()->sync($request->permission);
 
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Data berhasil diubah']);
